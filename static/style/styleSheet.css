@@ -186,3 +186,8 @@ a{
 .hidden{
     display: none;
 }
+.cart{
+    margin-top: 50px;
+    height: 100%;
+    width: 100%;
+}

@@ -330,5 +330,11 @@ def edit_products_post():
     return render_template('vendor_home.html', updated=updated, no_user=no_user)
 
 
+@app.route('/cart', methods=['GET'])
+def cart_get():
+    results = conn.execute(text(f"SELECT * FROM cart WHERE user_id = {current_user};")).all()
+    return render_template('cart.html', results=results, no_user=no_user)
+
+
 if __name__ == '__main__':
     app.run(debug=True)

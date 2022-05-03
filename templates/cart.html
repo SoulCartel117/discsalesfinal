@@ -1,7 +1,13 @@
 {% extends "base.html" %}
 {% block body %}
 <div class="main">
-    <div class="left"></div>
+    <div class="left">
+        <div class="cart">
+            {% for result in results %}
+                <p>Item name: {{ result[2] }} Color: {{ result[5] }} Plastic: {{ result[6] }} Price: {{ result[7] }} Quantity: {{ result[8] }}</p>
+            {% endfor %}
+        </div>
+    </div>
     <div class="right"></div>
 </div>
 
