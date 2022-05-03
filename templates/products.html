@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="top">
+    <form action="/products" method="post">
+        <select name="type">
+            <option value="all">All</option>
+            <option value="Driver">Driver</option>
+            <option value="Mid">Mid-range</option>
+            <option value="Putter">Putter</option>
+        </select>
+        <select name="color">
+            <option value="all">All</option>
+            <option value="red">Red</option>
+            <option value="blue">Blue</option>
+            <option value="green">Green</option>
+        </select>
+        <select name="plastic">
+            <option value="all">All</option>
+            <option value="star">Star</option>
+            <option value="champ">Champion</option>
+            <option value="pro">Pro</option>
+        </select>
+        <input type="submit" value="Submit">
+    </form>
+    <form action="/products_search" method="POST">
+        <input type="text" name="search" placeholder="Search by Disc name" required>
+        <input type="submit" value="Submit">
+    </form>
+</div>
+<div class="main_column">
+    <h3>{{ product_filter }}</h3>
+    <div class="products">
+        {% for result in results %}
+        <div class="product_display" style="border: 2px solid red;">
+                <img src="{{ result[3] }}" class="product_image"></a>
+                <p>{{ result[1] }}</p>
+                <p>{{ result[2] }}</p>
+                <p>${{ result[4] }}0</p>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <div class="landing_bottom">
+        
+    </div>
+</div>
+{% endblock %}

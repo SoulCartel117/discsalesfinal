@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="top">
+
+</div>
+<div class="main_column">
+    <h3>Featured disc</h3>
+    <div class="landing_top">
+        {% for result in results %}
+        <div class="product_display" style="border: 2px solid red;">
+                <img src="{{ result[3] }}" class="product_image"></a>
+                <p>{{ result[1] }}</p>
+                <p>{{ result[2] }}</p>
+                <p>{{ result[4] }}</p>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="landing_bottom">
+        
+    </div>
+</div>
+{% endblock %}

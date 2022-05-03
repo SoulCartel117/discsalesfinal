@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="top">
+    {{ new_product }}
+    {{ item_delete }}
+    {{ valid_vendor }}
+    {{ updated }}
+</div>
+<div class="main">
+    <div class="left">
+        <h3>Add a product</h3>
+        <form action="/add_products_admin" method="POST">
+            <input type="number" name="vendor_id" placeholder="Vendor ID" required><br>
+            <input type="text" name="title" placeholder="Title" required><br>
+            <input type="text" name="desc" placeholder="Description" required><br>
+            <input type="text" name="image" placeholder="Image url" required><br>
+            <input type="number" name="price" placeholder="Price" required><br>
+            <select name="type">
+                <option value="Driver">Driver</option>
+                <option value="Mid">Mid</option>
+                <option value="Putter">Putter</option>
+            </select><br>
+            <select name="color">
+                <option value="red">Red</option>
+                <option value="blue">Blue</option>
+                <option value="green">Green</option>
+            </select><br>
+            <select name="plastic">
+                <option value="star">Star</option>
+                <option value="champ">Champion</option>
+                <option value="pro">Pro</option>
+            </select><br>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+    <div class="left">
+        <h3>Delete a product</h3>
+        <form action="delete_products" method="POST">
+            <input type="number" name="delete_id" placeholder="ID" required><br>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+    <div class="right">
+        <h3>Edit a product</h3>
+        <form action="edit_products" method="POST">
+            <input type="number" name="e_id" placeholder="Item Id" required><br>
+            <input type="text" name="e_title" placeholder="Title" ><br>
+            <input type="text" name="e_desc" placeholder="Description" ><br>
+            <input type="text" name="e_image" placeholder="Image url" ><br>
+            <input type="number" name="e_price" placeholder="Price" ><br>
+            <select name="e_type">
+                <option value="Driver">Driver</option>
+                <option value="Mid">Mid</option>
+                <option value="Putter">Putter</option>
+            </select><br>
+            <select name="e_color">
+                <option value="red">Red</option>
+                <option value="blue">Blue</option>
+                <option value="green">Green</option>
+            </select><br>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+    <div class="right">
+        <h3>Navigate to</h3>
+        <a href="products">Products</a>
+        <a href="user_add">Add Money</a>
+        <a href="send_money">Send Money</a>
+        <a href="bank_log">Transaction Log</a>
+    </div>
+</div>
+{% endblock %}

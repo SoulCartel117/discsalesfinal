@@ -1,0 +1,27 @@
+<html>
+  <head>
+    <link rel= "stylesheet" href= "{{ url_for('static', filename='style/styleSheet.css') }}">
+    <title>Bank</title>
+  </head>
+
+  <body>
+    <header>
+        <div class="header">
+          <div class="logout">
+            <img src="static\images\bank.png" class="bankPic">
+          </div>
+          <div class="logout">
+            <p class="current_user">Current User: {{ no_user }}</p>
+            <a href="/sort">Homepage</a>
+            <a href="/products" class="logout2">Products</a>
+            <a href="/" class="logout2">Landing</a>
+            <a href="/logout" class="logout2">Logout</a>
+            <a href="/login" class="logout2">Login</a>
+          </div>
+        </div>
+    </header>
+
+    {% block body%}
+    {% endblock %}
+  </body>
+</html>
