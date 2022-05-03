@@ -34,10 +34,13 @@
             <div class="product_display" style="border: 2px solid red;">
                 <form action="add_cart" name="add_cart" method="post">
                     <img src="{{ result[3] }}" class="product_image"></a>
-                    <p name="title" value="{{ result[1] }}">{{ result[1] }}</p>
+                    <p>{{ result[1] }}</p>
                     <p>{{ result[2] }}</p>
-                    <p name="price" value="{{ result[4] }}">${{ result[4] }}0</p>
-                    <p name="product_id" value="{{ result[0] }}">${{ result[0] }}0</p>
+                    <p>${{ result[4] }}0</p>
+                    <p>{{ result[0] }}</p>
+                    <input name="product_id" value="{{ result[0] }}" class="hidden">
+                    <input name="title" value="{{ result[1] }}" class="hidden">
+                    <input name="price" value="{{ result[4] }}" class="hidden">
                     <input type="submit" value="Add to Cart">
                 </form>
             </div>
