@@ -199,12 +199,14 @@ def products_search():
 
 @app.route('/add_cart', methods=['POST'])
 def add_cart():
-    title = request.form.get('title')
-    price = request.form.get('price')
     product_id = request.form.get('product_id')
+    product = conn.execute(text(f"SELECT * FROM products WHERE ID = {product_id};")).all()
+    title = product[0][1]
+    price = product[0][4]
     conn.execute(text(f"INSERT INTO cart (user_id, title, product_id, price) "
-                      f"VALUES ({current_user}, '{title}', {product_id}, {price});"), request.form)
-    return render_template('products.html', no_user=no_user)
+                      f"VALUES ({current_user}, '{title}',{product_id}, {price});"))
+    item_added = f"{title} added to cart."
+    return redirect(url_for('products_get', no_user=no_user, item_added=item_added))
 
 
 @app.route('/add_products', methods=['GET'])
@@ -221,8 +223,9 @@ def add_products_post():
     color = request.form.get('color')
     type = request.form.get('type')
     plastic = request.form.get('plastic')
-    conn.execute(text(f"INSERT INTO products (title, description, image, price, type, color, vendorID, plastic)"
-                      f"VALUES (\"{title}\", \"{desc}\", \"{image}\", \"{price}\", \"{type}\", \"{color}\", {current_user}, '{plastic}');"), request.form)
+    quantity =  request.form.get('quantity')
+    conn.execute(text(f"INSERT INTO products (title, description, image, price, type, color, vendorID, plastic, quantity)"
+                      f"VALUES (\"{title}\", \"{desc}\", \"{image}\", \"{price}\", \"{type}\", \"{color}\", {current_user}, '{plastic}', {quantity});"), request.form)
     new_product = f'You added a {title} for the price of {price}.'
     return render_template('vendor_home.html', new_product=new_product, no_user=no_user)
 

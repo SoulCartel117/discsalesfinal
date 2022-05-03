@@ -22,6 +22,7 @@
         </select>
         <input type="submit" value="Submit">
     </form>
+    {{ item_added }}
     <form action="/products_search" method="POST">
         <input type="text" name="search" placeholder="Search by Disc name" required>
         <input type="submit" value="Submit">
@@ -34,13 +35,13 @@
             <div class="product_display" style="border: 2px solid red;">
                 <form action="add_cart" name="add_cart" method="post">
                     <img src="{{ result[3] }}" class="product_image"></a>
-                    <p>{{ result[1] }}</p>
-                    <p>{{ result[2] }}</p>
-                    <p>${{ result[4] }}0</p>
-                    <p>{{ result[0] }}</p>
+                    <p>Title: {{ result[1] }}</p>
+                    <p>Description: {{ result[2] }}</p>
+                    <p>Price: ${{ result[4] }}0</p>
+                    <p>Color: {{ result[6] }}</p>
+                    <p>Plastic: {{ result[8] }}</p>
+                    <p>Quantity: {{ result[9] }}</p>
                     <input name="product_id" value="{{ result[0] }}" class="hidden">
-                    <input name="title" value="{{ result[1] }}" class="hidden">
-                    <input name="price" value="{{ result[4] }}" class="hidden">
                     <input type="submit" value="Add to Cart">
                 </form>
             </div>
