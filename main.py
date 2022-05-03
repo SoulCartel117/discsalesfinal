@@ -200,11 +200,14 @@ def products_search():
 @app.route('/add_cart', methods=['POST'])
 def add_cart():
     product_id = request.form.get('product_id')
+    order_amount = request.form.get('order_amount')
     product = conn.execute(text(f"SELECT * FROM products WHERE ID = {product_id};")).all()
     title = product[0][1]
     price = product[0][4]
-    conn.execute(text(f"INSERT INTO cart (user_id, title, product_id, price) "
-                      f"VALUES ({current_user}, '{title}',{product_id}, {price});"))
+    color = product[0][6]
+    plastic = product[0][8]
+    conn.execute(text(f"INSERT INTO cart (user_id, title, product_id, price, color, plastic, quantity) "
+                      f"VALUES ({current_user}, '{title}',{product_id}, {price}, '{color}', '{plastic}', {order_amount} );"))
     item_added = f"{title} added to cart."
     return redirect(url_for('products_get', no_user=no_user, item_added=item_added))
 
@@ -240,8 +243,9 @@ def add_products_admin_post():
     color = request.form.get('color')
     type = request.form.get('type')
     plastic = request.form.get('plastic')
-    conn.execute(text(f"INSERT INTO products (title, description, image, price, type, color, vendorID, plastic)"
-                      f"VALUES (\"{title}\", \"{desc}\", \"{image}\", \"{price}\", \"{type}\", \"{color}\", {vendor_id}, '{plastic}');"), request.form)
+    quantity =  request.form.get('quantity')
+    conn.execute(text(f"INSERT INTO products (title, description, image, price, type, color, vendorID, plastic, quantity)"
+                      f"VALUES (\"{title}\", \"{desc}\", \"{image}\", \"{price}\", \"{type}\", \"{color}\", {vendor_id}, '{plastic}, {quantity}');"), request.form)
     new_product = f'You added a {title} for the price of {price}.'
     return render_template('admin_home.html', new_product=new_product, no_user=no_user)
 
@@ -279,6 +283,7 @@ def edit_products_post():
     e_image = request.form.get('e_image')
     e_type = request.form.get('e_type')
     e_color = request.form.get('e_color')
+    e_quantity =  request.form.get('e_quantity')
     vendor_id = conn.execute(text(f"SELECT * FROM products where ID = {e_id};")).all()[0][7]
     admin_check = conn.execute(text(f"SELECT * FROM user WHERE ID = {current_user};")).all()[0][6]
     if admin_check != "A":
@@ -305,17 +310,22 @@ def edit_products_post():
         e_image = f"'{e_image}'"
     else:
         e_image = f"'{e_image}'"
-    if e_type == "":
+    if e_type == "no_change":
         e_type = conn.execute(text(f"SELECT * FROM products WHERE ID = {e_id};")).all()[0][5]
         e_type = f"'{e_type}'"
     else:
         e_type = f"'{e_type}'"
-    if e_color == "":
+    if e_color == "no_change":
         e_color = conn.execute(text(f"SELECT * FROM products WHERE ID = {e_id};")).all()[0][6]
         e_color = f"'{e_color}'"
     else:
         e_color = f"'{e_color}'"
-    conn.execute(text(f"UPDATE products SET title = {e_title}, description = {e_desc}, price = {e_price}, image = {e_image}, type = {e_type}, color = {e_color} WHERE ID = {e_id};"))
+    if e_quantity == "":
+        e_quantity = conn.execute(text(f"SELECT * FROM products WHERE ID = {e_id};")).all()[0][9]
+        e_quantity = f"'{e_quantity}'"
+    else:
+        e_quantity = f"'{e_quantity}'"
+    conn.execute(text(f"UPDATE products SET title = {e_title}, description = {e_desc}, price = {e_price}, image = {e_image}, type = {e_type}, color = {e_color}, quantity = {e_quantity} WHERE ID = {e_id};"))
     updated = f"Product ID: {e_id} has been updated."
     return render_template('vendor_home.html', updated=updated, no_user=no_user)
 
