@@ -10,6 +10,7 @@ conn = engine.connect()
 salt = "kld@djaa%jkh3ljkk&d83038459"
 global no_user
 no_user = "Not logged in."
+current_user = ""
 
 
 @app.route('/', methods=['GET'])
@@ -33,24 +34,28 @@ def logout_get():
 
 @app.route('/login', methods=['POST'])
 def login_post():
-    # username_login = request.form.get("username")
+    username_login = request.form.get("username")
     password_login = request.form.get("password")
     result = conn.execute(text(f"SELECT * FROM user WHERE username = (:username)"), request.form).all()
-    password = result[0][2]
-    if check_password_hash(password, password_login + salt):
-        global current_user
-        current_user = conn.execute(text(f"SELECT * FROM user where username = (:username)"), request.form).all()
-        current_user = current_user[0][0]
-        result2 = conn.execute(text(f"SELECT * FROM user WHERE username = (:username)"), request.form).all()
-        global no_user
-        no_user = result2[0][1]
-        acc_type = result2[0][6]
-        if acc_type == "A":
-            return redirect(url_for('admin_home'))
-        elif acc_type == "V":
-            return redirect(url_for('vendor_home'))
+    if username_login == result[0][1]:
+        password = result[0][2]
+        if check_password_hash(password, password_login + salt):
+            global current_user
+            current_user = conn.execute(text(f"SELECT * FROM user where username = (:username)"), request.form).all()
+            current_user = current_user[0][0]
+            result2 = conn.execute(text(f"SELECT * FROM user WHERE username = (:username)"), request.form).all()
+            global no_user
+            no_user = result2[0][1]
+            acc_type = result2[0][6]
+            if acc_type == "A":
+                return redirect(url_for('admin_home'))
+            elif acc_type == "V":
+                return redirect(url_for('vendor_home'))
+            else:
+                return redirect(url_for('user_home'))
         else:
-            return redirect(url_for('user_home'))
+            login_error = "Login information does not match system information."
+            return render_template('Login.html', login_error=login_error)
     else:
         login_error = "Login information does not match system information."
         return render_template('Login.html', login_error=login_error)
@@ -111,10 +116,9 @@ def vendor_home():
 
 @app.route('/sort')
 def sort():
-        print("sort try ran")
+    if current_user != "":
         results = conn.execute(text(f'SELECT * FROM user where ID = {current_user};')).all()
         results = results[0][6]
-        print(results)
         if results:
             if results == "A":
                 return redirect(url_for("admin_home"))
@@ -128,6 +132,9 @@ def sort():
         else:
             login_error = 'You are not logged in, please login to go to your homepage.'
             return render_template('login.html', login_error=login_error)
+    else:
+        login_error = 'You are not logged in, please login to go to your homepage.'
+        return render_template('login.html', login_error=login_error)
 
 
 @app.route('/products', methods=['GET'])
@@ -188,6 +195,16 @@ def products_search():
     search = request.form.get('search')
     results = conn.execute(text(f"SELECT * FROM products WHERE title like '%{search}%';"), request.form).all()
     return render_template('products.html', results=results, no_user=no_user)
+
+
+@app.route('/add_cart', methods=['POST'])
+def add_cart():
+    title = request.form.get('title')
+    price = request.form.get('price')
+    product_id = request.form.get('product_id')
+    conn.execute(text(f"INSERT INTO cart (user_id, title, product_id, price) "
+                      f"VALUES ({current_user}, '{title}', {product_id}, {price});"), request.form)
+    return render_template('products.html', no_user=no_user)
 
 
 @app.route('/add_products', methods=['GET'])

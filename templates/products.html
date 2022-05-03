@@ -31,12 +31,16 @@
     <h3>{{ product_filter }}</h3>
     <div class="products">
         {% for result in results %}
-        <div class="product_display" style="border: 2px solid red;">
-                <img src="{{ result[3] }}" class="product_image"></a>
-                <p>{{ result[1] }}</p>
-                <p>{{ result[2] }}</p>
-                <p>${{ result[4] }}0</p>
-        </div>
+            <div class="product_display" style="border: 2px solid red;">
+                <form action="add_cart" name="add_cart" method="post">
+                    <img src="{{ result[3] }}" class="product_image"></a>
+                    <p name="title" value="{{ result[1] }}">{{ result[1] }}</p>
+                    <p>{{ result[2] }}</p>
+                    <p name="price" value="{{ result[4] }}">${{ result[4] }}0</p>
+                    <p name="product_id" value="{{ result[0] }}">${{ result[0] }}0</p>
+                    <input type="submit" value="Add to Cart">
+                </form>
+            </div>
         {% endfor %}
     </div>
     

@@ -161,7 +161,7 @@ a{
     justify-content: space-between;
 }
 .product_display{
-    height: 350px;
+    height: 400px;
     width: 20%;
     border: 2px solid gray;
     margin: 5px;
@@ -170,7 +170,7 @@ a{
     width: 100%;
 }
 .products{
-    height: 350vh;
+    height: 400vh;
     width: 100%;
     border: 2px solid green;
     display: flex;
