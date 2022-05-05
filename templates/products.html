@@ -37,7 +37,12 @@
                     <img src="{{ result[3] }}" class="product_image"></a>
                     <p>Title: {{ result[1] }}</p>
                     <p>Description: {{ result[2] }}</p>
-                    <p>Price: ${{ result[4] }}0</p>
+                    {% if result[4] != result[10] %}
+                        <s>Price: ${{ result[4] }}0</s>
+                        <p>Discount Price ${{ result[10] }}0</p>
+                    {% else %}
+                        <p>Price: ${{ result[4] }}0</p>
+                    {% endif %}
                     <p>Color: {{ result[6] }}</p>
                     <p>Plastic: {{ result[8] }}</p>
                     <p>Quantity: {{ result[9] }}</p>

@@ -15,7 +15,7 @@ current_user = ""
 
 @app.route('/', methods=['GET'])
 def landing():
-    results = conn.execute(text(f'SELECT * FROM products WHERE discount != 0 and discount != 1 LIMIT 3;')).all()
+    results = conn.execute(text(f'SELECT * FROM products WHERE discount != price LIMIT 3')).all()
     return render_template('landing.html', results=results, no_user=no_user)
 
 
@@ -29,7 +29,7 @@ def logout_get():
     global current_user
     current_user = ''
     no_user = "You have been logged out."
-    results = conn.execute(text(f'SELECT * FROM products')).all()
+    results = conn.execute(text(f'SELECT * FROM products WHERE discount != price LIMIT 3')).all()
     return render_template('landing.html', no_user=no_user, results=results)
 
 
@@ -247,10 +247,19 @@ def add_products_post():
     plastic = request.form.get('plastic')
     quantity =  request.form.get('quantity')
     discount = request.form.get('discount')
-    conn.execute(text(f"INSERT INTO products (title, description, image, price, type, color, vendorID, plastic, quantity, discount)"
-                      f"VALUES (\"{title}\", \"{desc}\", \"{image}\", \"{price}\", \"{type}\", \"{color}\", {current_user}, '{plastic}', {quantity}, {discount});"), request.form)
-    new_product = f'You added a {title} for the price of {price}.'
-    return render_template('vendor_home.html', new_product=new_product, no_user=no_user)
+    if discount != 1:
+        discount = int(price) * float(discount)
+        conn.execute(text(f"INSERT INTO products (title, description, image, price, type, color, vendorID, plastic, quantity, discount)"
+                          f"VALUES (\"{title}\", \"{desc}\", \"{image}\", \"{price}\", \"{type}\", \"{color}\", {current_user}, '{plastic}', {quantity}, {discount});"), request.form)
+        new_product = f'You added a {title} for the price of {price}.'
+        return render_template('vendor_home.html', new_product=new_product, no_user=no_user)
+    else:
+        conn.execute(text(
+            f"INSERT INTO products (title, description, image, price, type, color, vendorID, plastic, quantity, discount)"
+            f"VALUES (\"{title}\", \"{desc}\", \"{image}\", \"{price}\", \"{type}\", \"{color}\", {current_user}, '{plastic}', {quantity}, {price});"),
+                     request.form)
+        new_product = f'You added a {title} for the price of {price}.'
+        return render_template('vendor_home.html', new_product=new_product, no_user=no_user)
 
 
 @app.route('/add_products_admin', methods=['POST'])
@@ -319,9 +328,9 @@ def edit_products_post():
         e_title = f"'{e_title}'"
     if e_desc == "":
         e_desc = conn.execute(text(f"SELECT * FROM products WHERE ID = {e_id};")).all()[0][2]
-        e_desc = f"'{e_desc}'"
+        e_desc = f"\"{e_desc}\""
     else:
-        e_desc = f"'{e_desc}'"
+        e_desc = f"\"{e_desc}\""
     if e_price == "":
         e_price = conn.execute(text(f"SELECT * FROM products WHERE ID = {e_id};")).all()[0][4]
         e_price = f"'{e_price}'"
@@ -350,19 +359,34 @@ def edit_products_post():
     if e_discount == "no_change":
         e_discount = conn.execute(text(f"SELECT * FROM products WHERE ID = {e_id};")).all()[0][10]
         e_discount = f"{e_discount}"
+        conn.execute(text(
+            f"UPDATE products SET title = {e_title}, description = {e_desc}, price = {e_price}, image = {e_image}, type = {e_type}, color = {e_color}, quantity = {e_quantity}, discount = {e_discount} WHERE ID = {e_id};"))
+        updated = f"Product ID: {e_id} has been updated."
+        return render_template('vendor_home.html', updated=updated, no_user=no_user)
     else:
-        e_discount = f"{e_discount}"
-    conn.execute(text(f"UPDATE products SET title = {e_title}, description = {e_desc}, price = {e_price}, image = {e_image}, type = {e_type}, color = {e_color}, quantity = {e_quantity}, discount = {e_discount} WHERE ID = {e_id};"))
-    updated = f"Product ID: {e_id} has been updated."
-    return render_template('vendor_home.html', updated=updated, no_user=no_user)
+        if e_discount != 1:
+            e_price = e_price.rstrip("'")
+            e_price = e_price.lstrip("'")
+            e_price = e_price.rstrip("0")
+            e_price = e_price.rstrip(".")
+            print(e_price)
+            e_discount = int(float(e_price)) * float(e_discount)
+            conn.execute(text(
+                f"UPDATE products SET title = {e_title}, description = {e_desc}, price = {e_price}, image = {e_image}, type = {e_type}, color = {e_color}, quantity = {e_quantity}, discount = {e_discount} WHERE ID = {e_id};"))
+            updated = f"Product ID: {e_id} has been updated."
+            return render_template('vendor_home.html', updated=updated, no_user=no_user)
+        else:
+            conn.execute(text(
+                f"UPDATE products SET title = {e_title}, description = {e_desc}, price = {e_price}, image = {e_image}, type = {e_type}, color = {e_color}, quantity = {e_quantity}, discount = {e_discount} WHERE ID = {e_id};"))
+            updated = f"Product ID: {e_id} has been updated."
+            return render_template('vendor_home.html', updated=updated, no_user=no_user)
+
 
 
 @app.route('/cart', methods=['GET'])
 def cart_get():
     results = conn.execute(text(f"SELECT * FROM cart WHERE user_id = {current_user};")).all()
     return render_template('cart.html', results=results, no_user=no_user)
-
-
 
 
 if __name__ == '__main__':
