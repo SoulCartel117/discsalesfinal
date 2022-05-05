@@ -102,7 +102,15 @@
     justify-content: center;
     align-items: center;
 }
-input{
+/* input{
+    width: 250px;
+    height: 40px;
+    border-radius: 15px;
+    margin: 5px;
+    border: 2px solid rgb(6, 78, 212);
+    padding: 5px;
+} */
+.input{
     width: 250px;
     height: 40px;
     border-radius: 15px;
@@ -110,8 +118,8 @@ input{
     border: 2px solid rgb(6, 78, 212);
     padding: 5px;
 }
-.input{
-    width: 250px;
+.input2{
+    width: 120px;
     height: 40px;
     border-radius: 15px;
     margin: 5px;
@@ -279,4 +287,9 @@ select{
 }
 .landing_img{
     width: 100%;
+}
+.zip{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

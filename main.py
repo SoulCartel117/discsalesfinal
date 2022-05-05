@@ -382,11 +382,23 @@ def edit_products_post():
             return render_template('vendor_home.html', updated=updated, no_user=no_user)
 
 
-
 @app.route('/cart', methods=['GET'])
 def cart_get():
     results = conn.execute(text(f"SELECT * FROM cart WHERE user_id = {current_user};")).all()
     return render_template('cart.html', results=results, no_user=no_user)
+
+
+@app.route('/checkout', methods=['POST'])
+def checkout():
+    save_for_later = request.form.get('save_for_later')
+    if save_for_later:
+        conn.execute(text(f"INSERT INTO address (user_id, credit, cc_date, ssn, address, city, zip, phone)"
+                          f"VALUES ({current_user}, :cc_number, :date, :s_number, :address, :city, :zip, :phone);"), request.form)
+        ordered = f"Order successful and information saved"
+        return render_template('order.html', no_user=no_user, ordered=ordered)
+    else:
+        ordered = f"Order successful and information not saved"
+        return render_template('order.html', no_user=no_user, ordered=ordered)
 
 
 if __name__ == '__main__':
