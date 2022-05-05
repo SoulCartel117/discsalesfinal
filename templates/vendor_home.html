@@ -15,28 +15,27 @@
             <input type="text" name="image" placeholder="Image url" required><br>
             <input type="number" name="price" placeholder="Price" required><br>
             <input type="number" name="quantity" placeholder="Quantity" required><br>
-            <select name="type">
+            <select name="type" class="input">
                 <option value="Driver">Driver</option>
                 <option value="Mid">Mid</option>
                 <option value="Putter">Putter</option>
             </select><br>
-            <select name="color">
+            <select name="color" class="input">
                 <option value="red">Red</option>
                 <option value="blue">Blue</option>
                 <option value="green">Green</option>
             </select><br>
-            <select name="plastic">
+            <select name="plastic" class="input">
                 <option value="star">Star</option>
                 <option value="champ">Champion</option>
                 <option value="pro">Pro</option>
             </select><br>
-            <input type="submit" value="Submit">
-        </form>
-    </div>
-    <div class="left">
-        <h3>Delete a product</h3>
-        <form action="delete_products" method="POST">
-            <input type="number" name="delete_id" placeholder="ID" required><br>
+            <select name="discount" class="input">
+                <option value="1">No Discount</option>
+                <option value=".95">5%</option>
+                <option value=".90">10%</option>
+                <option value=".80">20%</option>
+            </select><br>
             <input type="submit" value="Submit">
         </form>
     </div>
@@ -49,27 +48,41 @@
             <input type="text" name="e_image" placeholder="Image url" ><br>
             <input type="number" name="e_price" placeholder="Price" ><br>
             <input type="number" name="e_quantity" placeholder="Quantity"><br>
-            <select name="e_type">
+            <select name="e_type" class="input">
                 <option value="no_change">No Change</option>
                 <option value="Driver">Driver</option>
                 <option value="Mid">Mid</option>
                 <option value="Putter">Putter</option>
             </select><br>
-            <select name="e_color">
+            <select name="e_color" class="input">
                 <option value="no_change">No Change</option>
                 <option value="red">Red</option>
                 <option value="blue">Blue</option>
                 <option value="green">Green</option>
             </select><br>
+            <select name="e_discount" class="input">
+                <option value="no_change">No Change</option>
+                <option value="1">No Discount</option>
+                <option value=".95">5%</option>
+                <option value=".90">10%</option>
+                <option value=".80">20%</option>
+            </select><br>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+    <div class="left">
+        <h3>Delete a product</h3>
+        <form action="delete_products" method="POST">
+            <input type="number" name="delete_id" placeholder="ID" required><br>
             <input type="submit" value="Submit">
         </form>
     </div>
     <div class="right">
         <h3>Navigate to</h3>
-        <a href="products">Products</a>
-        <a href="user_add">Add Money</a>
-        <a href="send_money">Send Money</a>
-        <a href="bank_log">Transaction Log</a>
+        <a href="products" class="a">Products</a>
+        <a href="user_add" class="a">Add Money</a>
+        <a href="send_money" class="a">Send Money</a>
+        <a href="bank_log" class="a">Transaction Log</a>
     </div>
 </div>
 {% endblock %}

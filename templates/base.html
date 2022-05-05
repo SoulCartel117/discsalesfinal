@@ -12,16 +12,19 @@
           </div>
           <div class="logout">
             <p class="current_user">Current User: {{ no_user }}</p>
-            <a href="/sort">Homepage</a>
-            <a href="/products" class="logout2">Products</a>
-            <a href="/" class="logout2">Landing</a>
-            <a href="/logout" class="logout2">Logout</a>
-            <a href="/login" class="logout2">Login</a>
+            <a href="/sort" class="logout2, a">Homepage</a>
+            <a href="/products" class="logout2, a">Products</a>
+            <a href="/" class="logout2, a">Landing</a>
+            <a href="/logout" class="logout2, a">Logout</a>
+            <a href="/login" class="logout2, a">Login</a>
           </div>
         </div>
     </header>
 
     {% block body%}
     {% endblock %}
+    <footer>
+      <div class="footer"></div>
+    </footer>
   </body>
 </html>

@@ -6,11 +6,16 @@
 .header{
     width: 100%;
     height: 100px;
-    border-bottom: 2px solid rgb(118, 194, 4);
-    box-shadow: 10px 0px 10px rgb(118, 194, 4);
+    border-bottom: 2px solid rgb(6, 78, 212);
+    box-shadow: 10px 0px 10px rgb(6, 78, 212);
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+.footer{
+    width: 100%;
+    height: 150px;
+    border: 2px solid black;
 }
 .main{
     display: flex;
@@ -25,7 +30,7 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 150vh;
+    height: 90vh;
 }
 .main2{
     display: flex;
@@ -79,7 +84,7 @@
     width: 150px;
     height: 320px;
     margin: 10px;
-    border: 2px solid rgb(118, 194, 4);
+    border: 2px solid rgb(6, 78, 212);
     padding: 10px;
     background-color: rgb(236, 234, 234);
 }
@@ -102,7 +107,7 @@ input{
     height: 40px;
     border-radius: 15px;
     margin: 5px;
-    border: 2px solid rgb(118, 194, 4);
+    border: 2px solid rgb(6, 78, 212);
     padding: 5px;
 }
 .input{
@@ -110,7 +115,7 @@ input{
     height: 40px;
     border-radius: 15px;
     margin: 5px;
-    border: 2px solid rgb(118, 194, 4);
+    border: 2px solid rgb(6, 78, 212);
     padding: 5px;
 }
 select{
@@ -119,11 +124,12 @@ select{
     border-radius: 15px;
     margin: 5px;
 }
-a{
+.a{
     width: 150px;
     height: 20;
     border-radius: 15px;
-    border: 2px solid rgb(118, 194, 4);
+    border: 2px solid rgba(6, 78, 212);
+    background-color: rgba(78, 127, 220, 0.626);
     text-align: center;
     text-decoration: none;
     margin: 10px;
@@ -135,7 +141,7 @@ a{
     height: 100%;
 }
 .submit{
-    background-color: rgba(108, 180, 0, 0.379);
+    background-color: rgba(78, 127, 220, 0.626);
 }
 .logout{
     padding: 10px;
@@ -144,9 +150,10 @@ a{
 }
 .logout2{
     padding: 20px;
+    text-align: center;
 }
 .landing_top{
-    height: 350px;
+    height: 500px;
     width: 100%;
     border: 2px solid green;
     display: flex;
@@ -156,23 +163,21 @@ a{
 .landing_bottom{
     height: 350px;
     width: 100%;
-    border: 2px solid green;
     display: flex;
     justify-content: space-between;
 }
 .product_display{
     height: 550px;
     width: 20%;
-    border: 2px solid gray;
     margin: 5px;
 }
 .product_image{
-    width: 100%;
+    width: 90%;
 }
 .products{
     height: inherit;
     width: 100%;
-    border: 2px solid green;
+    border: 2px solid rgba(6, 78, 212);
     display: flex;
     justify-content: space-evenly;
     margin-bottom: 10px;
@@ -187,7 +192,91 @@ a{
     display: none;
 }
 .cart{
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
     margin-top: 50px;
     height: 100%;
+    width: 100%;
+}
+.cart_items{
+    display: flex;
+    justify-content: center;
+    height: 50px;
+    width: 100%;
+    align-items: center;
+}
+.line_item{
+    height: 100%;
+    width: 100px;
+}
+.image_div{
+    width: 100%;
+    height: 340px;
+}
+.description{
+    margin: 10px;
+}
+.item_desc{
+    height: 100px;
+}
+.landing_options1{
+    height: 300px;
+    width: 34%;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    text-align: center;
+    color: white;
+    background: rgba(0, 0, 0, .5);
+    background-image: url('/static/images/rebecca_cox.jpg');
+    background-size: cover;
+}
+.landing_options1:hover{
+    opacity: .5;
+    transition: ease-in-out, .7s;
+
+}
+.landing_options2{
+    height: 300px;
+    width: 34%;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    text-align: center;
+    color: white;
+    background: rgba(0, 0, 0, .5);
+    background-image: url('/static/images/midrage.jpg');
+    background-size: cover;
+}
+.landing_options2:hover{
+    opacity: .5;
+    transition: ease-in-out, .7s;
+
+}
+.landing_options3{
+    height: 300px;
+    width: 34%;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    text-align: center;
+    color: white;
+    background: rgba(0, 0, 0, .5);
+    background-image: url('/static/images/Putting.jpg');
+    background-size: cover;
+}
+.landing_options3:hover{
+    opacity: .5;
+    transition: ease-in-out, .7s;
+
+}
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.landing_img{
     width: 100%;
 }

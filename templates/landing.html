@@ -4,19 +4,32 @@
 
 </div>
 <div class="main_column">
-    <h3>Featured disc</h3>
+    <h3>Featured discs</h3>
     <div class="landing_top">
         {% for result in results %}
-        <div class="product_display" style="border: 2px solid red;">
+        <div class="product_display">
+            <div class="image_div">
                 <img src="{{ result[3] }}" class="product_image"></a>
-                <p>{{ result[1] }}</p>
-                <p>{{ result[2] }}</p>
-                <p>{{ result[4] }}</p>
+            </div>
+            <div class="item_desc">
+                <h4 class="description">Name: {{ result[1] }}</h4>
+                <p class="description">Description: {{ result[2] }}</p>
+                <p class="description">Price: {{ result[4] }}</p>
+                <p class="description">Discount Price: {{ result[10] }}</p>
+            </div>
         </div>
         {% endfor %}
     </div>
     <div class="landing_bottom">
-        
+        <a href="/products_filter_driver" class="landing_options1">
+            <h1 class="centered">Drivers</h1>
+        </a>
+        <a href="/products_filter_mid" class="landing_options2">
+            <h1 class="centered">Midranges</h1>
+        </a>
+        <a href="/products_filter_putter" class="landing_options3">
+            <h1 class="centered">Putters</h1>
+        </a>
     </div>
 </div>
 {% endblock %}

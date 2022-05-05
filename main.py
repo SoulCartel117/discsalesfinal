@@ -15,7 +15,7 @@ current_user = ""
 
 @app.route('/', methods=['GET'])
 def landing():
-    results = conn.execute(text(f'SELECT * FROM products')).all()
+    results = conn.execute(text(f'SELECT * FROM products WHERE discount != 0 and discount != 1 LIMIT 3;')).all()
     return render_template('landing.html', results=results, no_user=no_user)
 
 
@@ -26,7 +26,8 @@ def login_get():
 
 @app.route('/logout', methods=['GET'])
 def logout_get():
-    current_user = 'logged out'
+    global current_user
+    current_user = ''
     no_user = "You have been logged out."
     results = conn.execute(text(f'SELECT * FROM products')).all()
     return render_template('landing.html', no_user=no_user, results=results)
@@ -190,6 +191,24 @@ def products_post():
         return render_template('products.html', results=results, product_filter=product_filter, no_user=no_user)
 
 
+@app.route('/products_filter_driver')
+def products_filter_driver():
+    results = conn.execute(text(f"SELECT * FROM products WHERE type = 'Driver';")).all()
+    return render_template('products.html', results=results, no_user=no_user)
+
+
+@app.route('/products_filter_mid')
+def products_filter_mid():
+    results = conn.execute(text(f"SELECT * FROM products WHERE type = 'Mid';")).all()
+    return render_template('products.html', results=results, no_user=no_user)
+
+
+@app.route('/products_filter_putter')
+def products_filter_putter():
+    results = conn.execute(text(f"SELECT * FROM products WHERE type = 'Putter';")).all()
+    return render_template('products.html', results=results, no_user=no_user)
+
+
 @app.route('/products_search', methods=['POST'])
 def products_search():
     search = request.form.get('search')
@@ -227,8 +246,9 @@ def add_products_post():
     type = request.form.get('type')
     plastic = request.form.get('plastic')
     quantity =  request.form.get('quantity')
-    conn.execute(text(f"INSERT INTO products (title, description, image, price, type, color, vendorID, plastic, quantity)"
-                      f"VALUES (\"{title}\", \"{desc}\", \"{image}\", \"{price}\", \"{type}\", \"{color}\", {current_user}, '{plastic}', {quantity});"), request.form)
+    discount = request.form.get('discount')
+    conn.execute(text(f"INSERT INTO products (title, description, image, price, type, color, vendorID, plastic, quantity, discount)"
+                      f"VALUES (\"{title}\", \"{desc}\", \"{image}\", \"{price}\", \"{type}\", \"{color}\", {current_user}, '{plastic}', {quantity}, {discount});"), request.form)
     new_product = f'You added a {title} for the price of {price}.'
     return render_template('vendor_home.html', new_product=new_product, no_user=no_user)
 
@@ -244,8 +264,9 @@ def add_products_admin_post():
     type = request.form.get('type')
     plastic = request.form.get('plastic')
     quantity =  request.form.get('quantity')
-    conn.execute(text(f"INSERT INTO products (title, description, image, price, type, color, vendorID, plastic, quantity)"
-                      f"VALUES (\"{title}\", \"{desc}\", \"{image}\", \"{price}\", \"{type}\", \"{color}\", {vendor_id}, '{plastic}, {quantity}');"), request.form)
+    discount = request.form.get('discount')
+    conn.execute(text(f"INSERT INTO products (title, description, image, price, type, color, vendorID, plastic, quantity, discount)"
+                      f"VALUES (\"{title}\", \"{desc}\", \"{image}\", \"{price}\", \"{type}\", \"{color}\", {vendor_id}, '{plastic}, {quantity}, {discount}');"), request.form)
     new_product = f'You added a {title} for the price of {price}.'
     return render_template('admin_home.html', new_product=new_product, no_user=no_user)
 
@@ -284,6 +305,7 @@ def edit_products_post():
     e_type = request.form.get('e_type')
     e_color = request.form.get('e_color')
     e_quantity =  request.form.get('e_quantity')
+    e_discount = request.form.get('e_discount')
     vendor_id = conn.execute(text(f"SELECT * FROM products where ID = {e_id};")).all()[0][7]
     admin_check = conn.execute(text(f"SELECT * FROM user WHERE ID = {current_user};")).all()[0][6]
     if admin_check != "A":
@@ -325,7 +347,12 @@ def edit_products_post():
         e_quantity = f"'{e_quantity}'"
     else:
         e_quantity = f"'{e_quantity}'"
-    conn.execute(text(f"UPDATE products SET title = {e_title}, description = {e_desc}, price = {e_price}, image = {e_image}, type = {e_type}, color = {e_color}, quantity = {e_quantity} WHERE ID = {e_id};"))
+    if e_discount == "no_change":
+        e_discount = conn.execute(text(f"SELECT * FROM products WHERE ID = {e_id};")).all()[0][10]
+        e_discount = f"{e_discount}"
+    else:
+        e_discount = f"{e_discount}"
+    conn.execute(text(f"UPDATE products SET title = {e_title}, description = {e_desc}, price = {e_price}, image = {e_image}, type = {e_type}, color = {e_color}, quantity = {e_quantity}, discount = {e_discount} WHERE ID = {e_id};"))
     updated = f"Product ID: {e_id} has been updated."
     return render_template('vendor_home.html', updated=updated, no_user=no_user)
 
@@ -334,6 +361,8 @@ def edit_products_post():
 def cart_get():
     results = conn.execute(text(f"SELECT * FROM cart WHERE user_id = {current_user};")).all()
     return render_template('cart.html', results=results, no_user=no_user)
+
+
 
 
 if __name__ == '__main__':
