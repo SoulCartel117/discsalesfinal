@@ -385,7 +385,11 @@ def edit_products_post():
 @app.route('/cart', methods=['GET'])
 def cart_get():
     results = conn.execute(text(f"SELECT * FROM cart WHERE user_id = {current_user};")).all()
-    return render_template('cart.html', results=results, no_user=no_user)
+    address = conn.execute(text(f"SELECT * FROM address WHERE user_id = {current_user};")).all()
+    if not results:
+        no_items = "There are no items in your cart."
+        return render_template('cart.html', results=results, no_user=no_user, address=address, no_items=no_items)
+    return render_template('cart.html', results=results, no_user=no_user, address=address)
 
 
 @app.route('/checkout', methods=['POST'])
@@ -395,10 +399,44 @@ def checkout():
         conn.execute(text(f"INSERT INTO address (user_id, credit, cc_date, ssn, address, city, zip, phone)"
                           f"VALUES ({current_user}, :cc_number, :date, :s_number, :address, :city, :zip, :phone);"), request.form)
         ordered = f"Order successful and information saved"
+        order_items = conn.execute(text(f"SELECT * FROM cart WHERE user_id = {current_user};")).all()
+        total_price = conn.execute(text(f"SELECT sum(price) FROM cart WHERE user_id = {current_user};")).all()
+        total_price = int(total_price)
+        for items in order_items:
+            title = items[2]
+            product_id = items[3]
+            price = items[4]
+            color = items[5]
+            plastic = items[6]
+            quantity = items[7]
+            conn.execute(text(f"INSERT INTO orders (user_id, item_id, item_title, item_color, item_plastic, quantity, item_price, total_price) "
+                          f"VALUES ({current_user}, {product_id}, '{title}', '{color}', '{plastic}', {quantity}, {price}, {total_price}); "))
+        conn.execute(text(f"DELETE FROM cart WHERE user_id = {current_user};"))
         return render_template('order.html', no_user=no_user, ordered=ordered)
     else:
+        order_items = conn.execute(text(f"SELECT * FROM cart WHERE user_id = {current_user};")).all()
+        total_price = conn.execute(text(f"SELECT sum(price) FROM cart WHERE user_id = {current_user};")).all()
+        print(total_price)
+        total_price = int(total_price[0][0])
+        for items in order_items:
+            title = items[2]
+            product_id = items[3]
+            price = items[4]
+            color = items[5]
+            plastic = items[6]
+            quantity = items[7]
+            conn.execute(text(
+            f"INSERT INTO orders (user_id, item_id, item_title, item_color, item_plastic, quantity, item_price, total_price) "
+            f"VALUES ({current_user}, {product_id}, '{title}', '{color}', '{plastic}', {quantity}, {price}, {total_price}); "))
+        conn.execute(text(f"DELETE FROM cart WHERE user_id = {current_user};"))
         ordered = f"Order successful and information not saved"
         return render_template('order.html', no_user=no_user, ordered=ordered)
+
+
+@app.route('/order', methods=['GET'])
+def order_get():
+    results = conn.execute(text(f"SELECT * FROM orders WHERE user_id = {current_user};")).all()
+    return render_template('order.html', results=results)
 
 
 if __name__ == '__main__':

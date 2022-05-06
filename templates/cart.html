@@ -3,7 +3,9 @@
 <div class="main">
     <div class="left">
         <h3>Cart</h3>
+        {{ no_items }}
         <div class="cart">
+            
             {% for result in results %}
                 <div class="cart_items">
                     <p class="line_item">Item name: {{ result[2] }}</p>
@@ -17,34 +19,39 @@
     </div>
     <div class="right">
         <h3>Checkout</h3>
-        <div class="checkout">
-            <form action="checkout" method="POST">
-                <input class="input" type="text" name="fname" placeholder="First Name" required><br>
-                <input class="input" type="text" name="lname" placeholder="Last Name" required><br>
-                <input class="input" type="number" name="cc_number" placeholder="Credit Card Number" limit="16" required><br>
-                <input class="input" type="date" name="date" placeholder="Credit Card Date" required><br>
-                <input class="input" type="number" name="s_number" placeholder="Security Number" limit="3" required><br>
-                <input class="input" type="text" name="address" placeholder="Street address" required><br>
-                <input class="input" type="text" name="city" placeholder="City" required><br>
-                <div class="zip">
-                    <input class="input2" type="number" name="zip" placeholder="Zip Code" limit="5" required><br>
-                    <input class="input2" type="number" name="phone" placeholder="Phone number" limit="7" required><br>
-                </div>
-                <div class="zip">
-                    <input type="checkbox" name="save_for_later">
-                    <p style="margin-left: 5px">Save information</p>
-                    <div style="margin-left: 15px" class="zip">
+        <div class="right2">
+            <div class="checkout">
+                <form action="checkout" method="POST">
+                    <input class="input" type="text" name="fname" placeholder="First Name" required><br>
+                    <input class="input" type="text" name="lname" placeholder="Last Name" required><br>
+                    <input class="input" type="number" name="cc_number" placeholder="Credit Card Number" limit="16" required><br>
+                    <input class="input" type="date" name="date" placeholder="Credit Card Date" required><br>
+                    <input class="input" type="number" name="s_number" placeholder="Security Number" limit="3" required><br>
+                    <input class="input" type="text" name="address" placeholder="Street address" required><br>
+                    <input class="input" type="text" name="city" placeholder="City" required><br>
+                    <div class="zip">
+                        <input class="input2" type="number" name="zip" placeholder="Zip Code" limit="5" required><br>
+                        <input class="input2" type="number" name="phone" placeholder="Phone number" limit="7" required><br>
+                    </div>
+                    <div class="zip">
+                        <input type="checkbox" name="save_for_later">
+                        <p style="margin-left: 5px">Save information</p>
+                    </div>
+                    <input class="input" type="submit" value="Place order"><br>
+                </form>
+            </div>
+            <div class="saved_address">
+                {% for address in address %}
+                    <p>{{ address[5] }}</p>
+                    <p>{{ address[6] }}</p>
+                    <p>{{ address[7] }}</p>
+                    <p>{{ address[8] }}</p>
+                    <div  class="zip2">
                         <input type="checkbox" name="used_saved">
                         <p style="margin-left: 5px">Use saved information</p>
                     </div>
-                </div>
-                <input class="input" type="submit" value="Place order"><br>
-            </form>
-        </div>
-        <div class="saved_address">
-            {% for address in address %}
-                
-            {% endfor %}
+                {% endfor %}
+            </div>
         </div>
     </div>
 </div>
