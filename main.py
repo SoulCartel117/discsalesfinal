@@ -222,11 +222,12 @@ def add_cart():
     order_amount = request.form.get('order_amount')
     product = conn.execute(text(f"SELECT * FROM products WHERE ID = {product_id};")).all()
     title = product[0][1]
-    price = product[0][4]
+    price = product[0][10]
     color = product[0][6]
     plastic = product[0][8]
-    conn.execute(text(f"INSERT INTO cart (user_id, title, product_id, price, color, plastic, quantity) "
-                      f"VALUES ({current_user}, '{title}',{product_id}, {price}, '{color}', '{plastic}', {order_amount} );"))
+    og_price = product[0][4]
+    conn.execute(text(f"INSERT INTO cart (user_id, title, product_id, price, color, plastic, quantity, og_price) "
+                      f"VALUES ({current_user}, '{title}',{product_id}, {price}, '{color}', '{plastic}', {order_amount},{og_price} );"))
     item_added = f"{title} added to cart."
     return redirect(url_for('products_get', no_user=no_user, item_added=item_added))
 
@@ -384,12 +385,33 @@ def edit_products_post():
 
 @app.route('/cart', methods=['GET'])
 def cart_get():
+    total_price = 0
+    total_discount = 0
     results = conn.execute(text(f"SELECT * FROM cart WHERE user_id = {current_user};")).all()
     address = conn.execute(text(f"SELECT * FROM address WHERE user_id = {current_user};")).all()
     if not results:
         no_items = "There are no items in your cart."
         return render_template('cart.html', results=results, no_user=no_user, address=address, no_items=no_items)
-    return render_template('cart.html', results=results, no_user=no_user, address=address)
+    else:
+        order_items = conn.execute(text(f"SELECT * FROM cart WHERE user_id = {current_user};")).all()
+        for items in order_items:
+            price = items[4]
+            quantity = int(items[7])
+            if quantity > 1:
+                item_total = int(price) * quantity
+                total_price = total_price + item_total
+            else:
+                total_price = total_price + price
+        for items in order_items:
+            price = int(items[4])
+            og_price = int(items[8])
+            quantity = int(items[7])
+            if price != og_price:
+                og_price = og_price * quantity
+                price = price * quantity
+                item_discount = og_price - price
+                total_discount = item_discount + total_discount
+        return render_template('cart.html', results=results, no_user=no_user, address=address, total_price=total_price, total_discount=total_discount)
 
 
 @app.route('/checkout', methods=['POST'])

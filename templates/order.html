@@ -2,10 +2,21 @@
 {% block body %}
 <div class="main">
     <div class="left">
-
+        <h3>Orders</h3>
+        {% for result in results %}
+            <p>Order Date: {{ result[2] }} Status: {{ result[10] }}</p>
+                {% for result in results %}
+                    <p>Item Name: {{ result[4] }}</p>
+                    <p>Color: {{ result[5] }}</p>
+                    <p>Plastic type: {{ result[6] }}</p>
+                    <p>Quantity: {{ result[7] }}</p>
+                    <p>Price: {{ result[8] }}</p>
+                {% endfor %}
+                <p>Total Price: {{ result[9] }}</p>
+        {% endfor %}
     </div>
     <div class="right">
-        
+
     </div>
 </div>
 {{ ordered }}
