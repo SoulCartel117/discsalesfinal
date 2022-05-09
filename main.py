@@ -472,5 +472,22 @@ def order_get():
     return render_template('order.html', results=results, no_user=no_user, ordercount=order_count)
 
 
+@app.route('/review', methods=['GET'])
+def review_get():
+    return render_template('reviews.html', no_user=no_user)
+
+
+@app.route('/review', methods=['POST'])
+def review_post():
+    rating = request.form.get('rating')
+    item_id = request.form.get('id')
+    title = conn.execute(text(f"SELECT * FROM products WHERE id = {item_id};")).all()[0][1]
+    name = conn.execute(text(f"SELECT * FROM user WHERE id = {current_user};")).all()[0][3]
+    conn.execute(text(f"INSERT INTO reviews (user_id, name, description, rating)"
+                      f"VALUES ({current_user},\"{name}\", \":description\", :rating )"), request.form)
+    review = f"You have left a {rating}star rating for {title} with ID {item_id}."
+    return render_template('reviews.html', no_user=no_user, review=review)
+
+
 if __name__ == '__main__':
     app.run(debug=True)
