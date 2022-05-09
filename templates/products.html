@@ -1,56 +1,68 @@
 {% extends "base.html" %}
 {% block body %}
-<div class="top" style="margin-bottom: 15px;">
-    <form action="/products" method="post">
-        <select class="input" name="type" style="width: 100px;">
-            <option value="all">All</option>
-            <option value="Driver">Driver</option>
-            <option value="Mid">Mid-range</option>
-            <option value="Putter">Putter</option>
-        </select>
-        <select class="input" name="color" style="width: 100px;">
-            <option value="all">All</option>
-            <option value="red">Red</option>
-            <option value="blue">Blue</option>
-            <option value="green">Green</option>
-        </select>
-        <select class="input" name="plastic" style="width: 100px;">
-            <option value="all">All</option>
-            <option value="star">Star</option>
-            <option value="champ">Champion</option>
-            <option value="pro">Pro</option>
-        </select>
-        <input class="input" type="submit" value="Submit">
-    </form>
+<div class="top" style="margin-bottom: 25px; margin-top: 30px;">
+    <div class="filter" style="margin-right: 10px;">
+        <form action="/products" method="post">
+            <select class="input" name="type" style="width: 100px;">
+                <option value="all">All</option>
+                <option value="Driver">Driver</option>
+                <option value="Mid">Mid-range</option>
+                <option value="Putter">Putter</option>
+            </select>
+            <select class="input" name="color" style="width: 100px;">
+                <option value="all">All</option>
+                <option value="red">Red</option>
+                <option value="blue">Blue</option>
+                <option value="green">Green</option>
+            </select>
+            <select class="input" name="plastic" style="width: 100px;">
+                <option value="all">All</option>
+                <option value="star">Star</option>
+                <option value="champ">Champion</option>
+                <option value="pro">Pro</option>
+            </select>
+            <div class="select">
+                <input class="input" style="width: 100%;" type="submit" value="Submit">
+            </div>
+        </form>
+    </div>
     {{ item_added }}
-    <form action="/products_search" method="POST">
-        <input class="input" type="text" name="search" placeholder="Search by Disc name" required>
-        <input class="input" type="submit" value="Submit">
-    </form>
+    <div style="margin-left:10px;">
+        <form action="/products_search" method="POST">
+            <input class="input" type="text" name="search" placeholder="Search by Disc name" required>
+            <div>
+                <input class="input" type="submit" value="Submit">
+            </div>
+        </form>
+    </div>
 </div>
 <div class="main_column" style="overflow: auto; height: auto;">
     <h3>{{ product_filter }}</h3>
     <div class="products">
         {% for result in results %}
-            <div class="product_display" style="border: 2px solid red;">
+            <div class="product_display">
                 <div class="product_image">
                     <img src="{{ result[3] }}" class="image"></a>
                 </div>
                 <form action="add_cart" name="add_cart" method="post">
-                    <p>Title: {{ result[1] }}</p>
-                    <p>Description: {{ result[2] }}</p>
-                    {% if result[4] != result[10] %}
-                        <s>Price: ${{ result[4] }}0</s>
-                        <p>Discount Price ${{ result[10] }}0</p>
-                    {% else %}
-                        <p>Price: ${{ result[4] }}0</p>
-                    {% endif %}
-                    <p>Color: {{ result[6] }}</p>
-                    <p>Plastic: {{ result[8] }}</p>
-                    <p>Quantity: {{ result[9] }}</p>
-                    <input name="product_id" value="{{ result[0] }}" class="hidden">
-                    <input name="order_amount" value="1" type="number" required><br>
-                    <input type="submit" value="Add to Cart">
+                    <div class="product_info_flex">
+                        <h3>{{ result[1] }}</h3>
+                        <center><p style="margin-bottom: 10px;">Description: {{ result[2] }}</p></center>
+                        {% if result[4] != result[10] %}
+                            <div class="price_flex">
+                                <s>Price: ${{ result[4] }}0</s>
+                                <p style="color: red; margin-left: 15px;">Discount Price ${{ result[10] }}0</p>
+                            </div>
+                        {% else %}
+                            <p>Price: ${{ result[4] }}0</p>
+                        {% endif %}
+                        <p>Color: {{ result[6] }}</p>
+                        <p>Plastic: {{ result[8] }}</p>
+                        <p>Quantity: {{ result[9] }}</p>
+                        <input name="product_id" value="{{ result[0] }}" class="hidden">
+                        <input class="input" style="margin-bottom: 5px;" name="order_amount" min="1" value="1" type="number" required>
+                        <input class="input" type="submit" value="Add to Cart">
+                    </div>
                 </form>
             </div>
         {% endfor %}

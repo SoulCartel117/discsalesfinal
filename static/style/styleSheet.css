@@ -182,7 +182,7 @@ select{
     justify-content: space-between;
 }
 .product_display{
-    height: 550px;
+    height: 600px;
     width: 20%;
     margin: 5px;
 }
@@ -199,7 +199,6 @@ select{
 .products{
     height: inherit;
     width: 100%;
-    border: 2px solid rgba(6, 78, 212);
     display: flex;
     justify-content: space-evenly;
     margin-bottom: 10px;
@@ -316,4 +315,20 @@ select{
 .saved_address{
     width: 200px;
     margin-left: 50px;
+}
+.price_flex{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.product_info_flex{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.select{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

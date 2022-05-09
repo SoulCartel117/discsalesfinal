@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for
+from jinja2 import Environment
 from sqlalchemy import create_engine, text
 from werkzeug.security import check_password_hash, generate_password_hash
+jinja_env = Environment(extensions=['jinja2.ext.loopcontrols'])
 
 app = Flask(__name__)
 conn_str = "mysql://root:Fcfisveryfun117@localhost/disc_retail"
@@ -452,13 +454,22 @@ def checkout():
             f"VALUES ({current_user}, {product_id}, '{title}', '{color}', '{plastic}', {quantity}, {price}, {total_price}); "))
         conn.execute(text(f"DELETE FROM cart WHERE user_id = {current_user};"))
         ordered = f"Order successful and information not saved"
-        return render_template('order.html', no_user=no_user, ordered=ordered)
+        return redirect(url_for('order.html', no_user=no_user, ordered=ordered))
 
 
 @app.route('/order', methods=['GET'])
 def order_get():
+    order_count = conn.execute(text(f"SELECT count(distinct user_id) FROM orders WHERE user_id = {current_user} group by date;")).all()
+    order_count = str(order_count)
+    order_count = order_count.rstrip(']')
+    order_count = order_count.lstrip('[')
+    order_count = order_count.rstrip(')')
+    order_count = order_count.lstrip('(')
+    order_count = order_count.rstrip(',')
+    order_count = int(order_count)
+    print(order_count)
     results = conn.execute(text(f"SELECT * FROM orders WHERE user_id = {current_user};")).all()
-    return render_template('order.html', results=results)
+    return render_template('order.html', results=results, no_user=no_user, ordercount=order_count)
 
 
 if __name__ == '__main__':
