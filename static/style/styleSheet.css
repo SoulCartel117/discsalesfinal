@@ -186,8 +186,15 @@ select{
     width: 20%;
     margin: 5px;
 }
+.image{
+    height: 90%;
+}
 .product_image{
-    width: 90%;
+    height: 345px;
+    display: flex;
+    justify-content: center;
+    align-items: top;
+    overflow: hidden;
 }
 .products{
     height: inherit;

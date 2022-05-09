@@ -10,11 +10,11 @@
     <div class="left">
         <h3>Add a product</h3>
         <form action="/add_products" method="POST">
-            <input type="text" name="title" placeholder="Title" required><br>
-            <input type="text" name="desc" placeholder="Description" required><br>
-            <input type="text" name="image" placeholder="Image url" required><br>
-            <input type="number" name="price" placeholder="Price" required><br>
-            <input type="number" name="quantity" placeholder="Quantity" required><br>
+            <input class="input" type="text" name="title" placeholder="Title" required><br>
+            <input class="input" type="text" name="desc" placeholder="Description" required><br>
+            <input class="input" type="text" name="image" placeholder="Image url" required><br>
+            <input class="input" type="number" name="price" placeholder="Price" required><br>
+            <input class="input" type="number" name="quantity" placeholder="Quantity" required><br>
             <select name="type" class="input">
                 <option value="Driver">Driver</option>
                 <option value="Mid">Mid</option>
@@ -36,18 +36,18 @@
                 <option value=".90">10%</option>
                 <option value=".80">20%</option>
             </select><br>
-            <input type="submit" value="Submit">
+            <input class="input" type="submit" value="Submit">
         </form>
     </div>
     <div class="right">
         <h3>Edit a product</h3>
         <form action="edit_products" method="POST">
-            <input type="number" name="e_id" placeholder="Item Id" required><br>
-            <input type="text" name="e_title" placeholder="Title" ><br>
-            <input type="text" name="e_desc" placeholder="Description" ><br>
-            <input type="text" name="e_image" placeholder="Image url" ><br>
-            <input type="number" name="e_price" placeholder="Price" ><br>
-            <input type="number" name="e_quantity" placeholder="Quantity"><br>
+            <input class="input" type="number" name="e_id" placeholder="Item Id" required><br>
+            <input class="input" type="text" name="e_title" placeholder="Title" ><br>
+            <input class="input" type="text" name="e_desc" placeholder="Description" ><br>
+            <input class="input" type="text" name="e_image" placeholder="Image url" ><br>
+            <input class="input" type="number" name="e_price" placeholder="Price" ><br>
+            <input class="input" type="number" name="e_quantity" placeholder="Quantity"><br>
             <select name="e_type" class="input">
                 <option value="no_change">No Change</option>
                 <option value="Driver">Driver</option>
@@ -67,14 +67,14 @@
                 <option value=".90">10%</option>
                 <option value=".80">20%</option>
             </select><br>
-            <input type="submit" value="Submit">
+            <input class="input" type="submit" value="Submit">
         </form>
     </div>
     <div class="left">
         <h3>Delete a product</h3>
         <form action="delete_products" method="POST">
-            <input type="number" name="delete_id" placeholder="ID" required><br>
-            <input type="submit" value="Submit">
+            <input class="input" type="number" name="delete_id" placeholder="ID" required><br>
+            <input class="input" type="submit" value="Submit">
         </form>
     </div>
     <div class="right">

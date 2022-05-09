@@ -1,40 +1,42 @@
 {% extends "base.html" %}
 {% block body %}
-<div class="top">
+<div class="top" style="margin-bottom: 15px;">
     <form action="/products" method="post">
-        <select name="type">
+        <select class="input" name="type" style="width: 100px;">
             <option value="all">All</option>
             <option value="Driver">Driver</option>
             <option value="Mid">Mid-range</option>
             <option value="Putter">Putter</option>
         </select>
-        <select name="color">
+        <select class="input" name="color" style="width: 100px;">
             <option value="all">All</option>
             <option value="red">Red</option>
             <option value="blue">Blue</option>
             <option value="green">Green</option>
         </select>
-        <select name="plastic">
+        <select class="input" name="plastic" style="width: 100px;">
             <option value="all">All</option>
             <option value="star">Star</option>
             <option value="champ">Champion</option>
             <option value="pro">Pro</option>
         </select>
-        <input type="submit" value="Submit">
+        <input class="input" type="submit" value="Submit">
     </form>
     {{ item_added }}
     <form action="/products_search" method="POST">
-        <input type="text" name="search" placeholder="Search by Disc name" required>
-        <input type="submit" value="Submit">
+        <input class="input" type="text" name="search" placeholder="Search by Disc name" required>
+        <input class="input" type="submit" value="Submit">
     </form>
 </div>
-<div class="main_column">
+<div class="main_column" style="overflow: auto; height: auto;">
     <h3>{{ product_filter }}</h3>
     <div class="products">
         {% for result in results %}
             <div class="product_display" style="border: 2px solid red;">
+                <div class="product_image">
+                    <img src="{{ result[3] }}" class="image"></a>
+                </div>
                 <form action="add_cart" name="add_cart" method="post">
-                    <img src="{{ result[3] }}" class="product_image"></a>
                     <p>Title: {{ result[1] }}</p>
                     <p>Description: {{ result[2] }}</p>
                     {% if result[4] != result[10] %}
