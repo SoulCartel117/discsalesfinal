@@ -60,8 +60,10 @@
                         <p>Plastic: {{ result[8] }}</p>
                         <p>Quantity: {{ result[9] }}</p>
                         <input name="product_id" value="{{ result[0] }}" class="hidden">
-                        <input class="input" style="margin-bottom: 5px;" name="order_amount" min="1" value="1" type="number" required>
-                        <input class="input" type="submit" value="Add to Cart">
+                        <div class="select">
+                            <input class="input" style="margin-bottom: 5px; width: 100px;" name="order_amount" min="1" value="1" type="number" required>
+                            <input class="input" style="width: 100px;" type="submit" value="Add to Cart">
+                        </div>
                     </div>
                 </form>
             </div>

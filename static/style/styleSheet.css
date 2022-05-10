@@ -332,3 +332,8 @@ select{
     justify-content: center;
     align-items: center;
 }
+.expanded{
+    height: 700px;
+    transition: .3s ease-in-out;
+    border: 2px solid black;
+}
