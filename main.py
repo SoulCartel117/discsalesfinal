@@ -473,20 +473,23 @@ def order_get():
     return render_template('order.html', results=results, no_user=no_user, ordercount=order_count)
 
 
-@app.route('/review', methods=['GET'])
+@app.route('/review_link', methods=['POST'])
 def review_get():
-    return render_template('reviews.html', no_user=no_user)
+    product_id = request.form.get('product_id_review')
+    print(f"Review get {product_id}")
+    return render_template('reviews.html', no_user=no_user, product_id=product_id)
 
 
 @app.route('/review', methods=['POST'])
 def review_post():
     rating = request.form.get('rating')
     item_id = request.form.get('id')
+    print(f"Review post {item_id}")
     title = conn.execute(text(f"SELECT * FROM products WHERE id = {item_id};")).all()[0][1]
     name = conn.execute(text(f"SELECT * FROM user WHERE id = {current_user};")).all()[0][3]
-    conn.execute(text(f"INSERT INTO reviews (user_id, name, description, rating)"
-                      f"VALUES ({current_user},\"{name}\", \":description\", :rating )"), request.form)
-    review = f"You have left a {rating}star rating for {title} with ID {item_id}."
+    conn.execute(text(f"INSERT INTO reviews (user_id, name, description, rating, product_id)"
+                      f"VALUES ({current_user},\"{name}\", \":description\", :rating, :id);"), request.form)
+    review = f"You have left a {rating} star rating for {title} with product ID {item_id}."
     return render_template('reviews.html', no_user=no_user, review=review)
 
 

@@ -335,9 +335,14 @@ select{
 .expanded{
     height: 700px;
     transition: .3s ease-in-out;
-    border: 2px solid black;
+}
+.visable{
     visibility: visible !important;
 }
 .reviews{
     visibility: hidden;
+}
+.review_details{
+    display: flex;
+    justify-content: center;
 }

@@ -63,17 +63,25 @@
                         <div class="select">
                             <input class="input" style="margin-bottom: 5px; width: 100px;" name="order_amount" min="1" value="1" type="number" required>
                             <input class="input" style="width: 100px;" type="submit" value="Add to Cart">
+                        </form>
+                        <form action="review_link" method="POST">
+                            <input name="product_id_review" value="{{ result[0] }}" class="hidden">
+                            <input class="input" style="width: 100px;" type="submit" value="Add Review">
+                        </form>
                         </div>
                     </div>
                 </form>
                 <div class="reviews">
+                    <center><h4>Reviews</h4></center>
                     {% for review in reviews %}
-                        {{ review[2] }}
-                        {{ review[3] }}
-                        {{ review[4] }}
+                    <div class="review_details">
+                        <p>{{ review[2] }}</p>
+                        <p>{{ review[3] }}</p>
+                        <p>{{ review[4] }}</p>
                         <p>{{ review[5] }} out of 5</p>
+                    </div>
                     {% endfor %}
-                    <input type="button" value="Close reviews" class="modifyButtons" onclick="closeEdit()">
+                    <!-- <input type="button" value="Close reviews" class="modifyButtons"> -->
                 </div>
             </div>
         {% endfor %}

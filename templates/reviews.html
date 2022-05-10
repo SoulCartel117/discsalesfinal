@@ -6,7 +6,7 @@
 <div class="main">
     <h3>Leave a product review</h3>
     <form action="review" method="POST">
-        <input class="input" type="number" name="id" placeholder="Item ID" required min="1"><br>
+            <input class="hidden" type="number" name="id" placeholder="Item ID" value="{{ product_id }}"><br>
         <select class="input" name="rating">
             <option value="1">1</option>
             <option value="2">2</option>
