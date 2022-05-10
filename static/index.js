@@ -9,11 +9,8 @@ $(document).ready(function() { // opens reviews
             }
             else {
                 $(this).addClass("expanded");
+                $(".reviews").addClass("expanded");
                 $(this).parent().addClass("expandedParent");
-                let v = $('<input type="button" value="Close Reviews" class="modifyButtons" onclick="closeEdit()" style="color:white;"/>');
-                let t = $('<p class="modifyButtons">This is a test</p>')
-                $(this).after().append(v);
-                $(this).after().append(t);
             }
         }
     })

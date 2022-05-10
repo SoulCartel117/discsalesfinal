@@ -142,8 +142,9 @@ def sort():
 
 @app.route('/products', methods=['GET'])
 def products_get():
+    reviews = conn.execute(text(f'SELECT * FROM reviews')).all()
     results = conn.execute(text(f'SELECT * FROM products')).all()
-    return render_template('products.html', results=results, no_user=no_user)
+    return render_template('products.html', results=results, no_user=no_user, reviews=reviews)
 
 
 @app.route('/products', methods=['POST'])

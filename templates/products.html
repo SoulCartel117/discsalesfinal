@@ -66,6 +66,15 @@
                         </div>
                     </div>
                 </form>
+                <div class="reviews">
+                    {% for review in reviews %}
+                        {{ review[2] }}
+                        {{ review[3] }}
+                        {{ review[4] }}
+                        <p>{{ review[5] }} out of 5</p>
+                    {% endfor %}
+                    <input type="button" value="Close reviews" class="modifyButtons" onclick="closeEdit()">
+                </div>
             </div>
         {% endfor %}
     </div>
