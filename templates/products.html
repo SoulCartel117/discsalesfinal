@@ -74,14 +74,59 @@
                 <div class="reviews">
                     <center><h4>Reviews</h4></center>
                     {% for review in reviews %}
-                    <div class="review_details">
-                        <p>{{ review[2] }}</p>
-                        <p>{{ review[3] }}</p>
-                        <p>{{ review[4] }}</p>
-                        <p>{{ review[5] }} out of 5</p>
+                    <div class="product_info_flex">
+                        {% if review[6] == result[0] %}
+                            <div class="select">
+                                <p style="margin-right: 5px;">{{ review[2] }}</p>
+                                <p style="margin-left: 5px;">{{ review[3] }}</p>
+                                {% if review[5] == 1 %}
+                                <div class="review_details" style="margin-left: 5px;">
+                                    <ion-icon name="star"></ion-icon>
+                                    <ion-icon name="star-outline"></ion-icon>
+                                    <ion-icon name="star-outline"></ion-icon>
+                                    <ion-icon name="star-outline"></ion-icon>
+                                    <ion-icon name="star-outline"></ion-icon>
+                                </div>
+                                {% elif review[5] == 2 %}
+                                <div class="review_details" style="margin-left: 5px;">
+                                    <ion-icon name="star"></ion-icon>
+                                    <ion-icon name="star"></ion-icon>
+                                    <ion-icon name="star-outline"></ion-icon>
+                                    <ion-icon name="star-outline"></ion-icon>
+                                    <ion-icon name="star-outline"></ion-icon>
+                                </div>
+                                {% elif review[5] == 3 %}
+                                <div class="review_details" style="margin-left: 5px;">
+                                    <ion-icon name="star"></ion-icon>
+                                    <ion-icon name="star"></ion-icon>
+                                    <ion-icon name="star"></ion-icon>
+                                    <ion-icon name="star-outline"></ion-icon>
+                                    <ion-icon name="star-outline"></ion-icon>
+                                </div>
+                                {% elif review[5] == 4 %}
+                                <div class="review_details" style="margin-left: 5px;">
+                                    <ion-icon name="star"></ion-icon>
+                                    <ion-icon name="star"></ion-icon>
+                                    <ion-icon name="star"></ion-icon>
+                                    <ion-icon name="star"></ion-icon>
+                                    <ion-icon name="star-outline"></ion-icon>
+                                </div>
+                                {% elif review[5] == 5 %}
+                                <div class="review_details" style="margin-left: 5px;">
+                                    <ion-icon name="star"></ion-icon>
+                                    <ion-icon name="star"></ion-icon>
+                                    <ion-icon name="star"></ion-icon>
+                                    <ion-icon name="star"></ion-icon>
+                                    <ion-icon name="star"></ion-icon>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div>
+                                <p>{{ review[4] }}</p>
+                            </div>
+                        {% endif %}
                     </div>
                     {% endfor %}
-                    <!-- <input type="button" value="Close reviews" class="modifyButtons"> -->
                 </div>
             </div>
         {% endfor %}
