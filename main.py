@@ -455,7 +455,7 @@ def checkout():
             f"VALUES ({current_user}, {product_id}, '{title}', '{color}', '{plastic}', {quantity}, {price}, {total_price}); "))
         conn.execute(text(f"DELETE FROM cart WHERE user_id = {current_user};"))
         ordered = f"Order successful and information not saved"
-        return redirect(url_for('order.html', no_user=no_user, ordered=ordered))
+        return redirect(url_for('order', no_user=no_user, ordered=ordered))
 
 
 @app.route('/order', methods=['GET'])
@@ -491,6 +491,37 @@ def review_post():
                       f"VALUES ({current_user},\"{name}\", \":description\", :rating, :id);"), request.form)
     review = f"You have left a {rating} star rating for {title} with product ID {item_id}."
     return render_template('reviews.html', no_user=no_user, review=review)
+
+
+@app.route('/approve', methods=['GET'])
+def approve_get():
+    results = conn.execute(text(f"SELECT * FROM orders")).all()
+    count = conn.execute(text(f"SELECT count(distinct user_id) FROM orders;")).all()[0]
+    return render_template('approve.html', no_user=no_user, results=results, count=count)
+
+
+@app.route('/approve', methods=['POST'])
+def approve_post():
+    status = request.form.get('approval')
+    order_date = request.form.get('order_date')
+    user = request.form.get('user_id')
+    conn.execute(text(f"UPDATE orders SET status = \'{status}\' WHERE date = \'{order_date}\';"))
+    if status == "Approval":
+        items = conn.execute(text(f"SELECT * from orders where date = {order_date};")).all()
+        for x in items:
+            item_id = x[3]
+            item_quantity = x[7]
+            inventory = conn.execute(text(f"SELECT * FROM products where ID = {item_id}")).all()[0][9]
+            if inventory >= item_quantity:
+                inventory = int(inventory) - int(item_quantity)
+                conn.execute(text(f"UPDATE products SET quantity = {inventory} WHERE ID = {item_id};"))
+            else:
+                inventory = int(inventory) - int(item_quantity)
+                updated = f"Item ID {item_id} does not have sufficient quantity. Over ordered by {inventory}."
+                return render_template('approve.html', no_user=no_user, updated=updated)
+    #   get the item and quantity, verify that there is enough inventory and then update the inventory to the correct amount
+    updated = f"The order placed on {order_date} by user {user} as been updated to {status}."
+    return render_template('approve.html', no_user=no_user, updated=updated)
 
 
 if __name__ == '__main__':
