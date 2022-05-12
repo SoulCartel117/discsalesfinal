@@ -9,16 +9,17 @@
             {% for result in results %}
                 <div class="select">
                     <p class="line_item">User ID:{{ result[1] }}</p>
-                    <p class="line_item">Order ID:{{ result[0] }}</p>
+                    <p class="line_item">Order ID:{{ result[11] }}</p>
                     <p class="line_item" style="width: 150px;">Date: {{ result[2] }}</p>
                     <p class="line_item">Item ID: {{ result[3] }}</p>
                     <p class="line_item" style="width: 150px;">Title: {{ result[4] }}</p>
                     <p class="line_item" style="width: 150px;">Quantity Ordered: {{ result[7] }}</p>
-                    <p class="line_item" style="width: 150px;">Total Price: {{ result[9] }}</p>
+                    <p class="line_item" style="width: 150px;">Total Order Price: {{ result[9] }}</p>
                     <p class="line_item">Status: {{ result[10] }}</p>
                 </div>
                 <form action="approve" method="POST">
-                    <input name="order_date" type="date" value="{{ result[2] }}">
+                    <input name="user_id" value="{{ result[1] }}" class="hidden">
+                    <input name="order_date" type="date" value="{{ result[2] }}" class="hidden">
                     <select name="approval">
                         <option value="Approve">Approve</option>
                         <option value="Delivery">Delivery</option>

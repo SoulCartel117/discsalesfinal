@@ -13,6 +13,8 @@ salt = "kld@djaa%jkh3ljkk&d83038459"
 global no_user
 no_user = "Not logged in."
 current_user = ""
+global total_price
+total_price = 0
 
 
 @app.route('/', methods=['GET'])
@@ -388,6 +390,7 @@ def edit_products_post():
 
 @app.route('/cart', methods=['GET'])
 def cart_get():
+    global total_price
     total_price = 0
     total_discount = 0
     results = conn.execute(text(f"SELECT * FROM cart WHERE user_id = {current_user};")).all()
@@ -425,8 +428,9 @@ def checkout():
                           f"VALUES ({current_user}, :cc_number, :date, :s_number, :address, :city, :zip, :phone);"), request.form)
         ordered = f"Order successful and information saved"
         order_items = conn.execute(text(f"SELECT * FROM cart WHERE user_id = {current_user};")).all()
-        total_price = conn.execute(text(f"SELECT sum(price) FROM cart WHERE user_id = {current_user};")).all()
-        total_price = int(total_price)
+        order_id = conn.execute(text(f"SELECT count(ID) FROM orders WHERE user_id = {current_user};")).all()
+        order_id = str(order_id[0][0])
+        order_id = int(order_id) + 1
         for items in order_items:
             title = items[2]
             product_id = items[3]
@@ -434,15 +438,15 @@ def checkout():
             color = items[5]
             plastic = items[6]
             quantity = items[7]
-            conn.execute(text(f"INSERT INTO orders (user_id, item_id, item_title, item_color, item_plastic, quantity, item_price, total_price) "
-                          f"VALUES ({current_user}, {product_id}, '{title}', '{color}', '{plastic}', {quantity}, {price}, {total_price}); "))
+            conn.execute(text(f"INSERT INTO orders (user_id, item_id, item_title, item_color, item_plastic, quantity, item_price, total_price, order_id) "
+                          f"VALUES ({current_user}, {product_id}, '{title}', '{color}', '{plastic}', {quantity}, {price}, {total_price}, {order_id}); "))
         conn.execute(text(f"DELETE FROM cart WHERE user_id = {current_user};"))
         return render_template('order.html', no_user=no_user, ordered=ordered)
     else:
         order_items = conn.execute(text(f"SELECT * FROM cart WHERE user_id = {current_user};")).all()
-        total_price = conn.execute(text(f"SELECT sum(price) FROM cart WHERE user_id = {current_user};")).all()
-        print(total_price)
-        total_price = int(total_price[0][0])
+        order_id = conn.execute(text(f"SELECT count(ID) FROM orders WHERE user_id = {current_user};")).all()
+        order_id = str(order_id[0][0])
+        order_id = int(order_id) + 1
         for items in order_items:
             title = items[2]
             product_id = items[3]
@@ -451,22 +455,16 @@ def checkout():
             plastic = items[6]
             quantity = items[7]
             conn.execute(text(
-            f"INSERT INTO orders (user_id, item_id, item_title, item_color, item_plastic, quantity, item_price, total_price) "
-            f"VALUES ({current_user}, {product_id}, '{title}', '{color}', '{plastic}', {quantity}, {price}, {total_price}); "))
+            f"INSERT INTO orders (user_id, item_id, item_title, item_color, item_plastic, quantity, item_price, total_price, order_id) "
+            f"VALUES ({current_user}, {product_id}, '{title}', '{color}', '{plastic}', {quantity}, {price}, {total_price}, {order_id}); "))
         conn.execute(text(f"DELETE FROM cart WHERE user_id = {current_user};"))
         ordered = f"Order successful and information not saved"
-        return redirect(url_for('order', no_user=no_user, ordered=ordered))
+        return redirect(url_for('order_get', no_user=no_user, ordered=ordered))
 
 
 @app.route('/order', methods=['GET'])
 def order_get():
-    order_count = conn.execute(text(f"SELECT count(distinct user_id) FROM orders WHERE user_id = {current_user} group by date;")).all()
-    order_count = str(order_count)
-    order_count = order_count.rstrip(']')
-    order_count = order_count.lstrip('[')
-    order_count = order_count.rstrip(')')
-    order_count = order_count.lstrip('(')
-    order_count = order_count.rstrip(',')
+    order_count = conn.execute(text(f"SELECT count(distinct user_id) FROM orders WHERE user_id = {current_user} group by date;")).all()[0][0]
     order_count = int(order_count)
     print(order_count)
     results = conn.execute(text(f"SELECT * FROM orders WHERE user_id = {current_user};")).all()
@@ -506,22 +504,30 @@ def approve_post():
     order_date = request.form.get('order_date')
     user = request.form.get('user_id')
     conn.execute(text(f"UPDATE orders SET status = \'{status}\' WHERE date = \'{order_date}\';"))
-    if status == "Approval":
-        items = conn.execute(text(f"SELECT * from orders where date = {order_date};")).all()
+    print(f"order date {order_date}")
+    if status == "Approve":
+        print("past approve")
+        items = conn.execute(text(f"SELECT * from orders where date = \"{order_date}\";")).all()
         for x in items:
             item_id = x[3]
+            print(f"Item id {item_id}")
             item_quantity = x[7]
+            print(f"item quantity {item_quantity}")
             inventory = conn.execute(text(f"SELECT * FROM products where ID = {item_id}")).all()[0][9]
             if inventory >= item_quantity:
+                print(f"TEST TEST TEST enough inventory")
                 inventory = int(inventory) - int(item_quantity)
                 conn.execute(text(f"UPDATE products SET quantity = {inventory} WHERE ID = {item_id};"))
+                updated = f"The order placed on {order_date} by user {user} as been updated to {status}."
+                return render_template('approve.html', no_user=no_user, updated=updated)
             else:
+                print(f"TEST TEST no enough inventory")
                 inventory = int(inventory) - int(item_quantity)
                 updated = f"Item ID {item_id} does not have sufficient quantity. Over ordered by {inventory}."
                 return render_template('approve.html', no_user=no_user, updated=updated)
-    #   get the item and quantity, verify that there is enough inventory and then update the inventory to the correct amount
-    updated = f"The order placed on {order_date} by user {user} as been updated to {status}."
-    return render_template('approve.html', no_user=no_user, updated=updated)
+    else:
+        updated = f"The order placed on {order_date} by user {user} as been updated to {status}."
+        return render_template('approve.html', no_user=no_user, updated=updated)
 
 
 if __name__ == '__main__':
