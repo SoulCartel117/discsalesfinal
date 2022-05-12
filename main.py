@@ -500,13 +500,12 @@ def approve_get():
 @app.route('/approve', methods=['POST'])
 def approve_post():
     status = request.form.get('approval')
-    order_date = request.form.get('order_date')
+    order_id = request.form.get('order_id')
     user = request.form.get('user_id')
-    conn.execute(text(f"UPDATE orders SET status = \'{status}\' WHERE date = \'{order_date}\';"))
-    print(f"order date {order_date}")
+    conn.execute(text(f"UPDATE orders SET status = \'{status}\' WHERE order_id = \'{order_id}\';"))
     if status == "Approve":
         print("past approve")
-        items = conn.execute(text(f"SELECT * from orders where date = \"{order_date}\";")).all()
+        items = conn.execute(text(f"SELECT * from orders WHERE order_id = \"{order_id}\";")).all()
         for x in items:
             item_id = x[3]
             print(f"Item id {item_id}")
@@ -517,7 +516,7 @@ def approve_post():
                 print(f"TEST TEST TEST enough inventory")
                 inventory = int(inventory) - int(item_quantity)
                 conn.execute(text(f"UPDATE products SET quantity = {inventory} WHERE ID = {item_id};"))
-                updated = f"The order placed on {order_date} by user {user} as been updated to {status}."
+                updated = f"The order ID {order_id} ordered by user {user} as been updated to {status}."
                 return render_template('approve.html', no_user=no_user, updated=updated)
             else:
                 print(f"TEST TEST no enough inventory")
@@ -525,7 +524,7 @@ def approve_post():
                 updated = f"Item ID {item_id} does not have sufficient quantity. Over ordered by {inventory}."
                 return render_template('approve.html', no_user=no_user, updated=updated)
     else:
-        updated = f"The order placed on {order_date} by user {user} as been updated to {status}."
+        updated = f"The order ID {order_id} ordered by user {user} as been updated to {status}."
         return render_template('approve.html', no_user=no_user, updated=updated)
 
 

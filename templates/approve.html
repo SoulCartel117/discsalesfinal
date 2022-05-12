@@ -1,12 +1,13 @@
 {% extends "base.html" %}
 {% block body %}
-<div class="main">
+<div class="main" style="overflow: auto; height: auto; flex-direction: column;">
     <div class="top">
         {{ updated }}
     </div>
     <div class="left">
         <h3 style="margin-bottom: 15px;">Approve an order</h3>
             {% for result in results %}
+            <div class="review_details">
                 <div class="select">
                     <p class="line_item">User ID:{{ result[1] }}</p>
                     <p class="line_item">Order ID:{{ result[11] }}</p>
@@ -17,21 +18,21 @@
                     <p class="line_item" style="width: 150px;">Total Order Price: {{ result[9] }}</p>
                     <p class="line_item">Status: {{ result[10] }}</p>
                 </div>
-                <form action="approve" method="POST">
-                    <input name="user_id" value="{{ result[1] }}" class="hidden">
-                    <input name="order_date" type="date" value="{{ result[2] }}" class="hidden">
-                    <select name="approval">
-                        <option value="Approve">Approve</option>
-                        <option value="Delivery">Delivery</option>
-                        <option value="Shipped">Shipped</option>
-                        <option value="Cancel">Cancel</option>
-                    </select>
-                    <input type="submit" value="Approve">
-                </form>
+                <div>
+                    <form action="approve" method="POST">
+                        <input name="user_id" value="{{ result[1] }}" class="hidden">
+                        <input name="order_id" type="number" value="{{ result[11] }}" class="hidden">
+                        <select name="approval">
+                            <option value="Approve">Approve</option>
+                            <option value="Delivery">Delivery</option>
+                            <option value="Shipped">Shipped</option>
+                            <option value="Cancel">Cancel</option>
+                        </select>
+                        <input type="submit" value="Approve">
+                    </form>
+                </div>
+            </div>
             {% endfor %}
-    </div>
-    <div class="right">
-
     </div>
 </div>
 {% endblock %}
