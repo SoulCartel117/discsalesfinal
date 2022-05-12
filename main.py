@@ -529,5 +529,16 @@ def approve_post():
         return render_template('approve.html', no_user=no_user, updated=updated)
 
 
+@app.route('/quantity_change', methods=['POST'])
+def quantity_change():
+    product_id = request.form.get('product_id')
+    print(product_id)
+    quantity = request.form.get('quantity')
+    print(quantity)
+    conn.execute(text(f"UPDATE cart SET quantity = {quantity} WHERE user_id = {current_user} and product_id = {product_id};"))
+    quantity_change = f"Product ID {product_id} has been updated to a quantity of {quantity}."
+    return redirect(url_for('cart_get', no_user=no_user, quantity_change=quantity_change))
+
+
 if __name__ == '__main__':
     app.run(debug=True)
