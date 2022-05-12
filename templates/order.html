@@ -2,22 +2,25 @@
 {% block body %}
 <div class="main" style="overflow: auto; height: auto;">
     <div class="left" >
-        <h3>Orders</h3>
-        {% for result in results %}
-            <p>Order Date: {{ result[2] }} Status: {{ result[10] }}</p>
+        <h3 style="margin: 30px;">{{ no_user }} Order's</h3>
+        {% for order in order_count %}
+        <div>
+            <p><b>Order ID: {{ order.order_id }} Order Date: {{ order.date }} Status: {{ order.status }}</b></p>
                 {% for result in results %}
-                    <div class="cart_items">
-                        <p class="line_item">Item Name: {{ result[4] }}</p>
-                        <p class="line_item">Color: {{ result[5] }}</p>
-                        <p class="line_item">Plastic type: {{ result[6] }}</p>
-                        <p class="line_item">Quantity: {{ result[7] }}</p>
-                        <p class="line_item">Price: ${{ result[8] }}0</p>
-                    </div>
+                    {% if result[11] == order[0] %}
+                        <div class="cart_items" style="margin-left: 20px; margin-top: 10px">
+                            <p class="line_item" style="width: 200px;">Item Name: {{ result[4] }}</p>
+                            <p class="line_item">Color: {{ result[5] }}</p>
+                            <p class="line_item"style="width: 150px;">Plastic type: {{ result[6] }}</p>
+                            <p class="line_item">Quantity: {{ result[7] }}</p>
+                            <p class="line_item">Price: ${{ result[8] }}0</p>
+                        </div>
+                    {% endif %}
                 {% endfor %}
-            <p>Total Price: ${{ result[9] }}0</p>
+            <p style="margin-bottom: 20px;"><b>Total Price: ${{ order[3] }}0</b></p>
+            <hr>
+        </div>
         {% endfor %}
-        
-        
     </div>
     <div class="right">
 

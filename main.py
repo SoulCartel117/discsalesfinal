@@ -464,11 +464,10 @@ def checkout():
 
 @app.route('/order', methods=['GET'])
 def order_get():
-    order_count = conn.execute(text(f"SELECT count(distinct user_id) FROM orders WHERE user_id = {current_user} group by date;")).all()[0][0]
-    order_count = int(order_count)
+    order_count = conn.execute(text(f"SELECT distinct order_id, date, status, total_price FROM orders WHERE user_id = {current_user};")).all()
     print(order_count)
     results = conn.execute(text(f"SELECT * FROM orders WHERE user_id = {current_user};")).all()
-    return render_template('order.html', results=results, no_user=no_user, ordercount=order_count)
+    return render_template('order.html', results=results, no_user=no_user, order_count=order_count)
 
 
 @app.route('/review_link', methods=['POST'])
