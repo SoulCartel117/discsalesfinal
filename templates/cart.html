@@ -2,24 +2,37 @@
 {% block body %}
 <div class="main">
     <div class="left">
-        <h3>Cart</h3>
+        <h3 style="margin: 30px;">Cart</h3>
         {{ no_items }}
         <div class="cart">
             {% for result in results %}
                 <div class="cart_items">
-                    <p class="line_item">Item name: {{ result[2] }}</p>
+                    <p class="line_item" style="width: 170px;">Item name: {{ result[2] }}</p>
                     <P class="line_item">Color: {{ result[5] }}</P>
                     <p class="line_item">Plastic: {{ result[6] }}</p>
                     <p class="line_item">Price: ${{ result[4] }}0</p>
-                    <p class="line_item">Quantity: {{ result[7] }}</p>
+                    <div class="line_item2">
+                        <div class="review_details">
+                            <p class="line_item">Quantity:</p>
+                            <form action="quantity_change" method="POST">
+                                <input name="product_id_review" value="{{ result[0] }}" class="hidden">
+                                <div class="review_details">
+                                    <input name="quantity" style="width: 40px;" value="{{ result[7] }}" required>
+                                    <input class="input" style="width: 110px; height: 100%; margin-left: 10px;" type="submit" value="Change Quantity">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    
                 </div>
+                
             {% endfor %}
-            <p>Total Price: ${{ total_price }}.00</p>
+            <p>Total Price: ${{ total_price }}0</p>
             <p>Total Discount: ${{ total_discount }}.00</p>
         </div>
     </div>
     <div class="right">
-        <h3>Checkout</h3>
+        <h3 style="margin: 30px;">Checkout</h3>
         <div class="right2">
             <div class="checkout">
                 <form action="checkout" method="POST">
