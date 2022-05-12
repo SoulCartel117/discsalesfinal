@@ -228,17 +228,19 @@ select{
     align-items: center;
     text-align: center;
 }
-.line_item{
+/* .line_item{
     height: 100%;
     width: 100px;
     display: flex;
-    justify-content: center;
-}
+    justify-content: left;
+    align-items: center;
+} */
 .line_item{
     height: 50px;
     width: 100px;
     display: flex;
-    justify-content: center;
+    justify-content: left;
+    align-items: center;
 }
 .image_div{
     width: 100%;

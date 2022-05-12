@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block body %}
-<div class="main" style="overflow: auto; height: auto;">
-    <div class="left" >
+<div class="main" style="overflow: auto; height: auto; width: 100%;">
+    <div class="left" style="width: 100%;">
         <h3 style="margin: 30px;">{{ no_user }} Order's</h3>
         {% for order in order_count %}
         <div>
@@ -21,9 +21,6 @@
             <hr>
         </div>
         {% endfor %}
-    </div>
-    <div class="right">
-
     </div>
 </div>
 {{ ordered }}

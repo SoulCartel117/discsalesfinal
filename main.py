@@ -401,10 +401,10 @@ def cart_get():
     else:
         order_items = conn.execute(text(f"SELECT * FROM cart WHERE user_id = {current_user};")).all()
         for items in order_items:
-            price = items[4]
-            quantity = int(items[7])
+            price = float(items[4])
+            quantity = float(items[7])
             if quantity > 1:
-                item_total = int(price) * quantity
+                item_total = price * quantity
                 total_price = total_price + item_total
             else:
                 total_price = total_price + price
@@ -537,6 +537,15 @@ def quantity_change():
     print(quantity)
     conn.execute(text(f"UPDATE cart SET quantity = {quantity} WHERE user_id = {current_user} and product_id = {product_id};"))
     quantity_change = f"Product ID {product_id} has been updated to a quantity of {quantity}."
+    return redirect(url_for('cart_get', no_user=no_user, quantity_change=quantity_change))
+
+
+@app.route('/cart_delete', methods=['POST'])
+def cart_delete():
+    product_id = request.form.get('product_id')
+    print(product_id)
+    conn.execute(text(f"DELETE FROM cart WHERE user_id = {current_user} and product_id = {product_id};"))
+    quantity_change = f"Removed product {product_id} from cart."
     return redirect(url_for('cart_get', no_user=no_user, quantity_change=quantity_change))
 
 

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block body %}
-<div class="main">
+<div class="main" style="overflow: auto; height: auto;">
     {{ quantity_change }}
     <div class="left">
         <h3 style="margin: 30px;">Cart</h3>
@@ -8,7 +8,7 @@
         <div class="cart">
             {% for result in results %}
                 <div class="cart_items">
-                    <p class="line_item" style="width: 170px;">Item name: {{ result[2] }}</p>
+                    <p class="line_item" style="width: 190px;">Item name: {{ result[2] }}</p>
                     <P class="line_item">Color: {{ result[5] }}</P>
                     <p class="line_item">Plastic: {{ result[6] }}</p>
                     <p class="line_item">Price: ${{ result[4] }}0</p>
@@ -20,6 +20,12 @@
                                 <div class="review_details">
                                     <input name="quantity" style="width: 40px;" value="{{ result[7] }}" required>
                                     <input class="input" style="width: 110px; height: 100%; margin-left: 10px;" type="submit" value="Change Quantity">
+                                </div>
+                            </form>
+                            <form action="cart_delete" method="POST">
+                                <input name="product_id" value="{{ result[3] }}" class="hidden">
+                                <div class="review_details">
+                                    <input class="input" style="width: 80px; height: 100%; margin-left: 10px;" type="submit" value="Remove">
                                 </div>
                             </form>
                         </div>
