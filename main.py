@@ -548,5 +548,12 @@ def cart_delete():
     return redirect(url_for('cart_get', no_user=no_user, quantity_change=quantity_change))
 
 
+@app.route('/contact', methods=['GET'])
+def contact_get():
+    admins = conn.execute(text(f"SELECT * FROM user WHERE type = \"A\";")).all()
+    vendors = conn.execute(text(f"SELECT * FROM user WHERE type = \"V\";")).all()
+    return render_template('contact.html', no_user=no_user, admins=admins, vendors=vendors)
+
+
 if __name__ == '__main__':
     app.run(debug=True)
