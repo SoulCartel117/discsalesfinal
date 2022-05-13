@@ -561,10 +561,26 @@ def contact():
     return render_template('contact.html', no_user=no_user, users=users)
 
 
-@app.route('/view_chats', methods=['POST'])
-def contact_get():
+@app.route('/send_chat', methods=['POST'])
+def send_chat():
+    reciver = request.form.get('id')
+    logs = conn.execute(text(f"SELECT * FROM chats WHERE (reciver = {reciver} and sender = {current_user}) or (reciver = {current_user} and sender = {reciver});")).all()
+    if not logs:
+        logs = f"No chat records found."
+        return render_template('send_chat.html', no_user=no_user, current_user=current_user, reciver=reciver, logs=logs)
+    else:
+        return render_template('send_chat.html', no_user=no_user, current_user=current_user, reciver=reciver, logs=logs)
 
-    return
+
+@app.route('/send_chat_reload', methods=['POST'])
+def send_chat_reload():
+    reciver = request.form.get('reciver')
+    sender = request.form.get('sender')
+    message = request.form.get('message')
+    conn.execute(text(f"INSERT INTO chats (sender, reciver, message) VALUES ({sender}, {reciver}, \"{message}\");"))
+    logs = conn.execute(text(
+        f"SELECT * FROM chats WHERE (reciver = {reciver} and sender = {current_user}) or (reciver = {current_user} and sender = {reciver});")).all()
+    return render_template('send_chat.html', no_user=no_user, current_user=current_user, reciver=reciver, logs=logs)
 
 
 if __name__ == '__main__':

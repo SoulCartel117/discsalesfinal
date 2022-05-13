@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="top">
+
+</div>
+<div class="main" style="overflow: auto; height: auto";>
+    <div class="left">
+       <h3>Send a Message</h3>
+        <form action="send_chat_reload" method="POST">
+            <input value="{{ current_user }}" class="hidden" name="sender">
+            <input value="{{ reciver }}" class="hidden" name="reciver">
+            <input type="text" placeholder="Message" name="message">
+            <input type="submit" value="Send">
+        </form>
+    </div>
+    <div class="right">
+        <h3>Chat Log</h3>
+            {% for log in logs %}
+            <div class="reviews_details">
+                <p>{{ log[2] }}</p>
+                <p>{{ log[4] }}</p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

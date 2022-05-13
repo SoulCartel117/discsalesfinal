@@ -11,7 +11,7 @@
             <p class="line_item" style="width: 150px;">Username: {{ user[1] }}</p>
             <p class="line_item" style="width: 150px;">Last Name: {{ user[4] }}</p>
             <p class="line_item" style="width: 250px;">Email: {{ user[5] }}</p>
-            <form action="send_chat_user" method="POST">
+            <form action="send_chat" method="POST">
                 <input value="{{ user[0] }}" name="id" class="hidden">
                 <input type="submit" value="Send a Chat">
             </form>
