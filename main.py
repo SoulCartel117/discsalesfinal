@@ -548,11 +548,23 @@ def cart_delete():
     return redirect(url_for('cart_get', no_user=no_user, quantity_change=quantity_change))
 
 
-@app.route('/contact', methods=['GET'])
-def contact_get():
+@app.route('/contact_user', methods=['GET'])
+def contact_users():
     admins = conn.execute(text(f"SELECT * FROM user WHERE type = \"A\";")).all()
     vendors = conn.execute(text(f"SELECT * FROM user WHERE type = \"V\";")).all()
-    return render_template('contact.html', no_user=no_user, admins=admins, vendors=vendors)
+    return render_template('contact_users.html', no_user=no_user, admins=admins, vendors=vendors)
+
+
+@app.route('/contact', methods=['GET'])
+def contact():
+    users = conn.execute(text(f"SELECT * FROM user WHERE type = \"C\";")).all()
+    return render_template('contact.html', no_user=no_user, users=users)
+
+
+@app.route('/view_chats', methods=['POST'])
+def contact_get():
+
+    return
 
 
 if __name__ == '__main__':
