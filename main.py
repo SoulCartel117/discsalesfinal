@@ -221,6 +221,13 @@ def products_search():
     return render_template('products.html', results=results, no_user=no_user)
 
 
+@app.route('/products_search_desc', methods=['POST'])
+def products_search_desc():
+    search = request.form.get('search')
+    results = conn.execute(text(f"SELECT * FROM products WHERE description like '%{search}%';"), request.form).all()
+    return render_template('products.html', results=results, no_user=no_user)
+
+
 @app.route('/add_cart', methods=['POST'])
 def add_cart():
     product_id = request.form.get('product_id')

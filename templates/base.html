@@ -10,7 +10,11 @@
     <header>
         <div class="header">
           <div class="logout">
-            <img src="static\images\bank.png" class="bankPic">
+            <img src="static\images\text.jpg" class="bankPic">
+            <div style="margin: 10px;">
+              <h1>Disc Net</h1>
+              <p>For all your retail disc needs.</p>
+            </div>
           </div>
           <div class="logout">
             <p class="current_user">Current User: {{ no_user }}</p>
@@ -27,7 +31,10 @@
     {% endblock %}
     <footer>
       <div class="footer">
-        <a href="/contact" class="logout2, a">Contact us</a>
+        <div class="footer_left"></div>
+        <div class="footer_right">
+          <a href="/contact" class="logout2, a" style="padding: 10px;">Contact us</a>
+        </div>
       </div>
     </footer>
   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
