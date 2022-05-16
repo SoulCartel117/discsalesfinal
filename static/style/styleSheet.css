@@ -29,8 +29,9 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 100%;
-    height: 90vh;
+    width: 98%;
+    margin: auto;
+    height: auto;
 }
 .main2{
     display: flex;
@@ -168,7 +169,8 @@ select{
     text-align: center;
 }
 .landing_top{
-    height: 500px;
+    overflow: auto;
+    height: auto;
     width: 100%;
     border: 2px solid green;
     display: flex;
@@ -182,6 +184,13 @@ select{
     justify-content: space-between;
 }
 .product_display{
+    height: 600px;
+    width: 24%;
+    margin: 1px;
+    overflow: auto;
+    height: auto;
+}
+.product_display_landing{
     height: 600px;
     width: 20%;
     margin: 5px;
@@ -360,4 +369,25 @@ select{
 .quantity{
     width: 30px;
     height: 30px;
+}
+.chat{
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    border: 2px solid lightgray;
+    border-radius: 10px;
+    box-shadow: 5px 10px 10px;
+    width: 500px;
+}
+.spacer{
+    height: 15px;
+    visibility: hidden;
+}
+.chat_left{
+    width: 100%;
+    height: 100%;
+}
+.chat_right{
+    width: 100%;
+    height: 100%;
 }

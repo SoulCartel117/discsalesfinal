@@ -9,11 +9,21 @@
                 {% for result in results %}
                     {% if result[11] == order[0] %}
                         <div class="cart_items" style="margin-left: 20px; margin-top: 10px">
-                            <p class="line_item" style="width: 200px;">Item Name: {{ result[4] }}</p>
+                            <p class="line_item" name="name" style="width: 200px;">Item Name: {{ result[4] }}</p>
                             <p class="line_item">Color: {{ result[5] }}</p>
                             <p class="line_item"style="width: 150px;">Plastic type: {{ result[6] }}</p>
                             <p class="line_item">Quantity: {{ result[7] }}</p>
                             <p class="line_item">Price: ${{ result[8] }}0</p>
+                            <form action="returns" method="POST">
+                                <input value="{{ result[0] }}" name="product_id" class="hidden">
+                                <input value="{{ result[4] }}" name="name" class="hidden">
+                                <select name="request" class="input" style="width: 100px;">
+                                    <option value="Refund">Refund</option>
+                                    <option value="Exchange">Exchange</option>
+                                    <option value="Warranty">Warranty</option>
+                                </select>
+                                <input class="submit" style="width: 100px; height: 80%; border-radius: 15px;" type="submit" value="Request">
+                            </form>
                         </div>
                     {% endif %}
                 {% endfor %}

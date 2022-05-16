@@ -49,7 +49,7 @@
                 <form action="add_cart" name="add_cart" method="post">
                     <div class="product_info_flex">
                         <h3>{{ result[1] }}</h3>
-                        <center><p style="margin-bottom: 10px;">Description: {{ result[2] }}</p></center>
+                        <center><p style="margin-bottom: 10px; height: 50px;">Description: {{ result[2] }}</p></center>
                         {% if result[4] != result[10] %}
                             <div class="price_flex">
                                 <s>Price: ${{ result[4] }}0</s>
@@ -58,18 +58,20 @@
                         {% else %}
                             <p>Price: ${{ result[4] }}0</p>
                         {% endif %}
-                        <p>Color: {{ result[6] }}</p>
-                        <p>Plastic: {{ result[8] }}</p>
-                        <p>Quantity: {{ result[9] }}</p>
+                        <div class="review_details">
+                            <p>Color: {{ result[6] }}</p>
+                            <p style="margin-left: 4px; margin-right: 4px; ">Plastic: {{ result[8] }}</p>
+                            <p>Quantity: {{ result[9] }}</p>
+                        </div>
                         <input name="product_id" value="{{ result[0] }}" class="hidden">
                         <div class="select">
                             <input class="input" style="margin-bottom: 5px; width: 100px;" name="order_amount" min="1" value="1" type="number" required>
                             <input class="input" style="width: 100px;" type="submit" value="Add to Cart">
                         </form>
-                        <form action="review_link" method="POST">
-                            <input name="product_id_review" value="{{ result[0] }}" class="hidden">
-                            <input class="input" style="width: 100px;" type="submit" value="Add Review">
-                        </form>
+                            <form action="review_link" method="POST">
+                                <input name="product_id_review" value="{{ result[0] }}" class="hidden">
+                                <input class="input" style="width: 100px;" type="submit" value="Add Review">
+                            </form>
                         </div>
                     </div>
                 </form>

@@ -564,12 +564,17 @@ def contact():
 @app.route('/send_chat', methods=['POST'])
 def send_chat():
     reciver = request.form.get('id')
-    logs = conn.execute(text(f"SELECT * FROM chats WHERE (reciver = {reciver} and sender = {current_user}) or (reciver = {current_user} and sender = {reciver});")).all()
+    logs = conn.execute(text(
+        f"SELECT * FROM chats WHERE (reciver = {reciver} and sender = {current_user});")).all()
+    systems = conn.execute(text(
+        f"SELECT * FROM chats WHERE (reciver = {current_user} and sender = {reciver});")).all()
+    print(f"logs logs {logs}")
+    print(f"system system {systems}")
     if not logs:
         logs = f"No chat records found."
-        return render_template('send_chat.html', no_user=no_user, current_user=current_user, reciver=reciver, logs=logs)
+        return render_template('send_chat.html', no_user=no_user, current_user=current_user, reciver=reciver, logs=logs, systems=systems)
     else:
-        return render_template('send_chat.html', no_user=no_user, current_user=current_user, reciver=reciver, logs=logs)
+        return render_template('send_chat.html', no_user=no_user, current_user=current_user, reciver=reciver, logs=logs, systems=systems)
 
 
 @app.route('/send_chat_reload', methods=['POST'])
@@ -579,8 +584,37 @@ def send_chat_reload():
     message = request.form.get('message')
     conn.execute(text(f"INSERT INTO chats (sender, reciver, message) VALUES ({sender}, {reciver}, \"{message}\");"))
     logs = conn.execute(text(
-        f"SELECT * FROM chats WHERE (reciver = {reciver} and sender = {current_user}) or (reciver = {current_user} and sender = {reciver});")).all()
-    return render_template('send_chat.html', no_user=no_user, current_user=current_user, reciver=reciver, logs=logs)
+        f"SELECT * FROM chats WHERE (reciver = {reciver} and sender = {current_user});")).all()
+    systems = conn.execute(text(
+        f"SELECT * FROM chats WHERE (reciver = {current_user} and sender = {reciver});")).all()
+    print(f"logs logs {logs}")
+    print(f"system system {systems}")
+    return render_template('send_chat.html', no_user=no_user, current_user=current_user, reciver=reciver, logs=logs, systems=systems)
+
+
+@app.route('/returns_get', methods=['GET'])
+def returns_get():
+    return redirect(url_for('returns_page', no_user=no_user))
+
+
+@app.route('/returns', methods=['POST'])
+def returns():
+    product_id = request.form.get('product_id')
+    product_title = request.form.get('name')
+    requests = request.form.get('request')
+    conn.execute(text(f"INSERT INTO returns (user_id, product_id, item_title, request) "
+                      f"VALUES ({current_user}, {product_id}, \"{product_title}\", \"{requests}\")"))
+    returns = f"You have requested a {requests} for item {product_title}, status: Pending."
+    return redirect(url_for('returns_page', no_user=no_user, returns=returns))
+
+
+@app.route('/returns_page', methods=['GET'])
+def returns_page():
+    orders = conn.execute(text(f"SELECT ID, date, status FROM returns WHERE user_id = {current_user}")).all()
+    results = conn.execute(text(f"SELECT * FROM returns WHERE user_id = {current_user};")).all()
+    print(f"orders orders {orders}")
+    print(f"results results {results}")
+    return render_template('returns.html', no_user=no_user, results=results, orders=orders)
 
 
 if __name__ == '__main__':

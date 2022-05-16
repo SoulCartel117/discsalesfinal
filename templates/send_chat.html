@@ -15,12 +15,26 @@
     </div>
     <div class="right">
         <h3>Chat Log</h3>
-            {% for log in logs %}
-            <div class="reviews_details">
-                <p>{{ log[2] }}</p>
-                <p>{{ log[4] }}</p>
+        <div class="chat">
+            <div class="chat_left">
+                {% for log in logs %}
+                    <div class="review_details" style="justify-content: left;">
+                        <p style="margin: 5px; height: 15px;">{{ log[1] }}</p>
+                        <p style="margin: 5px; height: 15px;">{{ log[3] }}</p>
+                    </div>
+                    <p class="spacer">spacer</p>    
+                {% endfor %}
             </div>
-        {% endfor %}
+            <div class="chat_right">
+                {% for system in systems %}   
+                    <p class="spacer">spacer</p>      
+                    <div class="review_details" style="justify-content: right;">
+                        <p style="margin: 5px; height: 15px;">{{ system[1] }}</p>
+                        <p style="margin: 5px; height: 15px;">{{ system[3] }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}
