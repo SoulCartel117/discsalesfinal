@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block body %}
-<div class="main" style="overflow: auto; height: auto; flex-direction: column;">
+<div class="main" style="overflow: auto; height: auto; flex-direction: column; margin-bottom: 15px;">
     <div class="top">
         {{ updated }}
     </div>
@@ -16,19 +16,21 @@
                     <p class="line_item" style="width: 150px;">Title: {{ result[4] }}</p>
                     <p class="line_item" style="width: 150px;">Quantity Ordered: {{ result[7] }}</p>
                     <p class="line_item" style="width: 150px;">Total Order Price: {{ result[9] }}</p>
-                    <p class="line_item">Status: {{ result[10] }}</p>
+                    <p class="line_item" style="width: 150px;">Status: {{ result[10] }}</p>
                 </div>
                 <div>
                     <form action="approve" method="POST">
                         <input name="user_id" value="{{ result[1] }}" class="hidden">
                         <input name="order_id" type="number" value="{{ result[11] }}" class="hidden">
-                        <select name="approval">
-                            <option value="Approve">Approve</option>
-                            <option value="Delivery">Delivery</option>
-                            <option value="Shipped">Shipped</option>
-                            <option value="Cancel">Cancel</option>
-                        </select>
-                        <input type="submit" value="Approve">
+                        <div class="review_details">
+                            <select name="approval" class="input" style="width: 150px;">
+                                <option value="Approve">Approve</option>
+                                <option value="Delivery">Delivery</option>
+                                <option value="Shipped">Shipped</option>
+                                <option value="Cancel">Cancel</option>
+                            </select>
+                            <input class="submit" type="submit" value="Approve" style="width: 100px; border-radius: 15px; height: 40px; margin-top: 5px;">
+                        </div>
                     </form>
                 </div>
             </div>

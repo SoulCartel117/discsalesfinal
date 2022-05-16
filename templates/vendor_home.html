@@ -6,84 +6,91 @@
     {{ valid_vendor }}
     {{ updated }}
 </div>
-<div class="main" height: auto; overflow: auto;>
+<div class="main" style="height: auto; overflow: auto; margin-bottom: 15px;">
     <div class="left">
         <h3>Add a product</h3>
-        <form action="/add_products" method="POST">
-            <input class="input" type="text" name="title" placeholder="Title" required><br>
-            <input class="input" type="text" name="desc" placeholder="Description" required><br>
-            <input class="input" type="text" name="image" placeholder="Image url" required><br>
-            <input class="input" type="number" name="price" placeholder="Price" required><br>
-            <input class="input" type="number" name="quantity" placeholder="Quantity" required><br>
-            <select name="type" class="input">
-                <option value="Driver">Driver</option>
-                <option value="Mid">Mid</option>
-                <option value="Putter">Putter</option>
-            </select><br>
-            <select name="color" class="input">
-                <option value="red">Red</option>
-                <option value="blue">Blue</option>
-                <option value="green">Green</option>
-            </select><br>
-            <select name="plastic" class="input">
-                <option value="star">Star</option>
-                <option value="champ">Champion</option>
-                <option value="pro">Pro</option>
-            </select><br>
-            <select name="discount" class="input">
-                <option value="1">No Discount</option>
-                <option value=".95">5%</option>
-                <option value=".90">10%</option>
-                <option value=".80">20%</option>
-            </select><br>
-            <input class="input" type="submit" value="Submit">
-        </form>
+        <div class="reg_border">
+            <form action="/add_products" method="POST">
+                <input class="input" type="text" name="title" placeholder="Title" required><br>
+                <input class="input" type="text" name="desc" placeholder="Description" required><br>
+                <input class="input" type="text" name="image" placeholder="Image url" required><br>
+                <input class="input" type="number" name="price" placeholder="Price" required><br>
+                <input class="input" type="number" name="quantity" placeholder="Quantity" required><br>
+                <select name="type" class="input">
+                    <option value="Driver">Driver</option>
+                    <option value="Mid">Mid</option>
+                    <option value="Putter">Putter</option>
+                </select><br>
+                <select name="color" class="input">
+                    <option value="red">Red</option>
+                    <option value="blue">Blue</option>
+                    <option value="green">Green</option>
+                </select><br>
+                <select name="plastic" class="input">
+                    <option value="star">Star</option>
+                    <option value="champ">Champion</option>
+                    <option value="pro">Pro</option>
+                </select><br>
+                <select name="discount" class="input">
+                    <option value="1">No Discount</option>
+                    <option value=".95">5%</option>
+                    <option value=".90">10%</option>
+                    <option value=".80">20%</option>
+                </select><br>
+                <input class="input" type="submit" value="Submit">
+            </form>
+        </div>
     </div>
     <div class="right">
         <h3>Edit a product</h3>
-        <form action="edit_products" method="POST">
-            <input class="input" type="number" name="e_id" placeholder="Item Id" required><br>
-            <input class="input" type="text" name="e_title" placeholder="Title" ><br>
-            <input class="input" type="text" name="e_desc" placeholder="Description" ><br>
-            <input class="input" type="text" name="e_image" placeholder="Image url" ><br>
-            <input class="input" type="number" name="e_price" placeholder="Price" ><br>
-            <input class="input" type="number" name="e_quantity" placeholder="Quantity"><br>
-            <select name="e_type" class="input">
-                <option value="no_change">No Change</option>
-                <option value="Driver">Driver</option>
-                <option value="Mid">Mid</option>
-                <option value="Putter">Putter</option>
-            </select><br>
-            <select name="e_color" class="input">
-                <option value="no_change">No Change</option>
-                <option value="red">Red</option>
-                <option value="blue">Blue</option>
-                <option value="green">Green</option>
-            </select><br>
-            <select name="e_discount" class="input">
-                <option value="no_change">No Change</option>
-                <option value="1">No Discount</option>
-                <option value=".95">5%</option>
-                <option value=".90">10%</option>
-                <option value=".80">20%</option>
-            </select><br>
-            <input class="input" type="submit" value="Submit">
-        </form>
+        <div class="reg_border">
+            <form action="edit_products" method="POST">
+                <input class="input" type="number" name="e_id" placeholder="Item Id" required><br>
+                <input class="input" type="text" name="e_title" placeholder="Title" ><br>
+                <input class="input" type="text" name="e_desc" placeholder="Description" ><br>
+                <input class="input" type="text" name="e_image" placeholder="Image url" ><br>
+                <input class="input" type="number" name="e_price" placeholder="Price" ><br>
+                <input class="input" type="number" name="e_quantity" placeholder="Quantity"><br>
+                <select name="e_type" class="input">
+                    <option value="no_change">No Change</option>
+                    <option value="Driver">Driver</option>
+                    <option value="Mid">Mid</option>
+                    <option value="Putter">Putter</option>
+                </select><br>
+                <select name="e_color" class="input">
+                    <option value="no_change">No Change</option>
+                    <option value="red">Red</option>
+                    <option value="blue">Blue</option>
+                    <option value="green">Green</option>
+                </select><br>
+                <select name="e_discount" class="input">
+                    <option value="no_change">No Change</option>
+                    <option value="1">No Discount</option>
+                    <option value=".95">5%</option>
+                    <option value=".90">10%</option>
+                    <option value=".80">20%</option>
+                </select><br>
+                <input class="input" type="submit" value="Submit">
+            </form>
+        </div>
     </div>
     <div class="left">
         <h3>Delete a product</h3>
-        <form action="delete_products" method="POST">
-            <input class="input" type="number" name="delete_id" placeholder="ID" required><br>
-            <input class="input" type="submit" value="Submit">
-        </form>
+        <div class="reg_border">
+            <form action="delete_products" method="POST">
+                <input class="input" type="number" name="delete_id" placeholder="ID" required><br>
+                <input class="input" type="submit" value="Submit">
+            </form>
+        </div>
     </div>
     <div class="right">
         <h3>Navigate to</h3>
-        <a href="products" class="a">Products</a>
-        <a href="user_add" class="a">Add Money</a>
-        <a href="approve" class="a">Approve an order</a>
-        <a href="contact" class="a">Chat</a>
-        <a href="approve_request" class="a">Approve a Request</a>
+        <div class="reg_border" style="display: flex; flex-direction: column;">
+            <a href="products" class="a">Products</a>
+            <a href="approve" class="a">Approve an order</a>
+            <a href="contact" class="a">Chat</a>
+            <a href="approve_request" class="a">Approve a Request</a>
+        </div>
     </div>
 </div>
 {% endblock %}

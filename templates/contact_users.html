@@ -13,7 +13,7 @@
             <p class="line_item" style="width: 250px;">Email: {{ vendor[5] }}</p>
             <form action="send_chat" method="POST">
                 <input value="{{ vendor[0] }}" name="id" class="hidden">
-                <input type="submit" value="Send a Chat">
+                <input class="submit" type="submit" value="Send a Chat" style="width: 100px; border-radius: 15px; height: 40px; margin-top: 5px;">
             </form>
         </div>
         {% endfor %}
@@ -27,7 +27,7 @@
             <p class="line_item" style="width: 250px;">Email: {{ admin[5] }}</p>
             <form action="send_chat" method="POST">
                 <input value="{{ admin[0] }}" name="id" class="hidden">
-                <input type="submit" value="Send a Chat">
+                <input class="submit" type="submit" value="Send a Chat" style="width: 100px; border-radius: 15px; height: 40px; margin-top: 5px;">
             </form>
         </div>
         {% endfor %}

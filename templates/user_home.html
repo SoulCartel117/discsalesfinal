@@ -5,7 +5,7 @@
 <div class="main">
     <div class="left">
         {% for result in results %}
-            <div class="result">
+            <div class="result" style="border-radius: 15px;">
                 <p class="result_content">User ID: {{ result[0] }}</p>
                 <p class="result_content">Username: {{ result[1] }}</p>
                 <p class="result_content">First Name: {{ result[3] }}</p>
@@ -16,12 +16,13 @@
     </div>
     <div class="right">
         <h3>Navigate to</h3>
-        <a href="products" class="a">Products</a>
-        <a href="cart" class="a">View Cart</a>
-        <a href="order" class="a">Orders</a>
-        <a href="review" class="a">Reviews</a>
-        <a href="contact_user" class="a">Contact</a>
-        <a href="returns_get" class="a">Return Requests</a>
+        <div class="reg_border" style="display: flex; flex-direction: column;">
+            <a href="products" class="a">Products</a>
+            <a href="cart" class="a">View Cart</a>
+            <a href="order" class="a">Orders</a>
+            <a href="contact_user" class="a">Contact</a>
+            <a href="returns_get" class="a">Return Requests</a>
+        </div>
     </div>
 </div>
 {% endblock %}

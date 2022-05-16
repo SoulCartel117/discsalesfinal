@@ -398,8 +398,16 @@ select{
 .footer_left{
     width: 50%;
     height: 100%;
+    border: 2px solid red;
 }
 .footer_right{
     width: 50%;
     height: 100%;
+    border: 2px solid green;
+}
+.reg_border{
+    border: 2px solid rgba(6, 78, 212);
+    padding: 10px;
+    border-radius: 15px;
+    background-color: lightgrey;
 }

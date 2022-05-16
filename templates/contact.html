@@ -5,7 +5,7 @@
 </div>
 <div class="main">
     <div class="left">
-        <h3>Meet our Vendors</h3>
+        <h3>Our Customers</h3>
         {% for user in users %}
         <div class="review_details">
             <p class="line_item" style="width: 150px;">Username: {{ user[1] }}</p>
@@ -13,7 +13,7 @@
             <p class="line_item" style="width: 250px;">Email: {{ user[5] }}</p>
             <form action="send_chat" method="POST">
                 <input value="{{ user[0] }}" name="id" class="hidden">
-                <input type="submit" value="Send a Chat">
+                <input class="submit" type="submit" value="Send a Chat" style="width: 100px; border-radius: 15px; height: 40px; margin-top: 5px;">
             </form>
         </div>
         {% endfor %}
