@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="main" style="overflow: auto; height: auto; flex-direction: column;">
+    <div class="top">
+    </div>
+    <div class="left">
+        <h3 style="margin-bottom: 15px;">Refunds</h3>
+            {% for result in results %}
+            <div class="review_details">
+                <div class="select">
+                    <p class="line_item">User ID:{{ result[1] }}</p>
+                    <p class="line_item">Request ID:{{ result[0] }}</p>
+                    <p class="line_item" style="width: 150px;">Date: {{ result[4] }}</p>
+                    <p class="line_item">Item ID: {{ result[2] }}</p>
+                    <p class="line_item" style="width: 150px;">Title: {{ result[3] }}</p>
+                    <p class="line_item" style="width: 150px;">Status: {{ result[6] }}</p>
+                </div>
+                <div>
+                    <form action="approve_request" method="POST">
+                        <input name="order_id" type="number" value="{{ result[0] }}" class="hidden">
+                        <div class="review_details">
+                            <select class="input" name="status" style="width: 100px;">
+                                <option value="Approve">Approve</option>
+                                <option value="Declined">Declined</option>
+                                <option value="Cancel">Cancel</option>
+                            </select>
+                            <input class="submit" style="border-radius: 15px; width: 100px; height: 40px; margin-top: 5px;" type="submit" value="Approve">
+                        </div>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -617,5 +617,20 @@ def returns_page():
     return render_template('returns.html', no_user=no_user, results=results, orders=orders)
 
 
+@app.route('/approve_request', methods=['GET'])
+def approve_request():
+    results = conn.execute(text(f"SELECT * FROM returns;")).all()
+    return render_template('approve_request.html', no_user=no_user, results=results)
+
+
+@app.route('/approve_request', methods=['POST'])
+def approve_request_post():
+    request_id = request.form.get('order_id')
+    status = request.form.get('status')
+    conn.execute(text(f"UPDATE returns SET status = \"{status}\" WHERE id = {request_id};"))
+    results = conn.execute(text(f"SELECT * FROM returns;")).all()
+    return render_template('approve_request.html', no_user=no_user, results=results)
+
+
 if __name__ == '__main__':
     app.run(debug=True)
