@@ -34,7 +34,7 @@ def logout_get():
     current_user = ''
     no_user = "You have been logged out."
     results = conn.execute(text(f'SELECT * FROM products WHERE discount != price LIMIT 3')).all()
-    return render_template('landing.html', no_user=no_user, results=results)
+    return render_template('login.html', no_user=no_user, results=results)
 
 
 @app.route('/login', methods=['POST'])
@@ -42,6 +42,9 @@ def login_post():
     username_login = request.form.get("username")
     password_login = request.form.get("password")
     result = conn.execute(text(f"SELECT * FROM user WHERE username = (:username)"), request.form).all()
+    if result == []:
+        login_error = f"Username not found, please try again."
+        return render_template('login.html', login_error=login_error)
     if username_login == result[0][1]:
         password = result[0][2]
         if check_password_hash(password, password_login + salt):
@@ -481,6 +484,9 @@ def order_get():
 def review_get():
     product_id = request.form.get('product_id_review')
     print(f"Review get {product_id}")
+    if current_user == "":
+        login_error = f"You are not logged in, please login to create a review."
+        return render_template('login.html', no_user=no_user, login_error=login_error)
     return render_template('reviews.html', no_user=no_user, product_id=product_id)
 
 

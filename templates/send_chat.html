@@ -9,13 +9,13 @@
         <form action="send_chat_reload" method="POST">
             <input value="{{ current_user }}" class="hidden" name="sender">
             <input value="{{ reciver }}" class="hidden" name="reciver">
-            <input type="text" placeholder="Message" name="message">
-            <input type="submit" value="Send">
+            <input class="input" type="text" placeholder="Message" name="message">
+            <input class="submit" type="submit" value="Send" style="width: 100px; height: 40px; border-radius: 15px;">
         </form>
     </div>
     <div class="right">
         <h3>Chat Log</h3>
-        <div class="chat">
+        <div class="chat" style="margin: 15px;">
             <div class="chat_left">
                 {% for log in logs %}
                     <div class="review_details" style="justify-content: left;">

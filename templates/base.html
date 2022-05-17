@@ -11,7 +11,7 @@
         <div class="header">
           <div class="logout">
             <img src="static\images\text.jpg" class="bankPic">
-            <div style="margin: 10px;">
+            <div style="margin: 10px; width: 150px;">
               <h1>Disc Net</h1>
               <p>For all your retail disc needs.</p>
             </div>
@@ -21,8 +21,7 @@
             <a href="/sort" class="logout2, a">Homepage</a>
             <a href="/products" class="logout2, a">Products</a>
             <a href="/" class="logout2, a">Landing</a>
-            <a href="/logout" class="logout2, a">Logout</a>
-            <a href="/login" class="logout2, a">Login</a>
+            <a href="/logout" class="logout2, a">Login/Logout</a>
           </div>
         </div>
     </header>
@@ -31,9 +30,25 @@
     {% endblock %}
     <footer>
       <div class="footer">
-        <div class="footer_left"></div>
+        <div class="footer_left">
+          <div class="review_details" style="margin-bottom: 10px;">
+            <h3>Quick links</h3>
+          </div>
+          <a href="/sort" class="logout2, a">Homepage</a>
+          <a href="/products" class="logout2, a">Products</a>
+          <a href="/products_filter_driver" class="logout2, a">Search Drivers</a>
+          <a href="/products_filter_mid" class="logout2, a">Search Midrange</a>
+          <a href="/products_filter_putter" class="logout2, a">Search Putters</a>
+        </div>
         <div class="footer_right">
-          <a href="/contact" class="logout2, a" style="padding: 10px;">Contact us</a>
+          <div class="review_details">
+            <h3>Contact us</h3>
+          </div>
+          <div class="review_details" style="flex-direction: column; align-items: center;">
+            <p>Disc Net</p>
+            <p>123 Normal rd, PA 17504</p>
+            <a href="/contact" class="logout2, a" style="margin: 20px;">Contact's page</a>
+          </div>
         </div>
       </div>
     </footer>
