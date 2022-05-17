@@ -31,10 +31,9 @@ def login_get():
 @app.route('/logout', methods=['GET'])
 def logout_get():
     global current_user
-    current_user = ''
+    current_user = ""
     no_user = "You have been logged out."
-    results = conn.execute(text(f'SELECT * FROM products WHERE discount != price LIMIT 3')).all()
-    return render_template('login.html', no_user=no_user, results=results)
+    return render_template('login.html', no_user=no_user)
 
 
 @app.route('/login', methods=['POST'])
@@ -241,10 +240,14 @@ def add_cart():
     color = product[0][6]
     plastic = product[0][8]
     og_price = product[0][4]
-    conn.execute(text(f"INSERT INTO cart (user_id, title, product_id, price, color, plastic, quantity, og_price) "
+    if current_user == "":
+        login_error = "Please login before adding items to an account."
+        return render_template('login.html', no_user=no_user, login_error=login_error)
+    else:
+        conn.execute(text(f"INSERT INTO cart (user_id, title, product_id, price, color, plastic, quantity, og_price) "
                       f"VALUES ({current_user}, '{title}',{product_id}, {price}, '{color}', '{plastic}', {order_amount},{og_price} );"))
-    item_added = f"{title} added to cart."
-    return redirect(url_for('products_get', no_user=no_user, item_added=item_added))
+        item_added = f"{title} added to cart."
+        return redirect(url_for('products_get', no_user=no_user, item_added=item_added))
 
 
 @app.route('/add_products', methods=['GET'])
@@ -515,7 +518,7 @@ def approve_post():
     status = request.form.get('approval')
     order_id = request.form.get('order_id')
     user = request.form.get('user_id')
-    conn.execute(text(f"UPDATE orders SET status = \'{status}\' WHERE order_id = \'{order_id}\';"))
+    conn.execute(text(f"UPDATE orders SET status = \'{status}\' WHERE order_id = \'{order_id}\' and user_id = {user};"))
     if status == "Approve":
         print("past approve")
         items = conn.execute(text(f"SELECT * from orders WHERE order_id = \"{order_id}\";")).all()
@@ -570,24 +573,32 @@ def contact_users():
 
 @app.route('/contact', methods=['GET'])
 def contact():
-    users = conn.execute(text(f"SELECT * FROM user WHERE type = \"C\";")).all()
-    return render_template('contact.html', no_user=no_user, users=users)
+    if current_user == "":
+        login_error = "Please login in before sending a chat."
+        return render_template("login.html", no_user=no_user, login_error=login_error)
+    else:
+        users = conn.execute(text(f"SELECT * FROM user WHERE type = \"C\";")).all()
+        return render_template('contact.html', no_user=no_user, users=users)
 
 
 @app.route('/send_chat', methods=['POST'])
 def send_chat():
-    reciver = request.form.get('id')
-    logs = conn.execute(text(
-        f"SELECT * FROM chats WHERE (reciver = {reciver} and sender = {current_user});")).all()
-    systems = conn.execute(text(
-        f"SELECT * FROM chats WHERE (reciver = {current_user} and sender = {reciver});")).all()
-    print(f"logs logs {logs}")
-    print(f"system system {systems}")
-    if not logs:
-        logs = f"No chat records found."
-        return render_template('send_chat.html', no_user=no_user, current_user=current_user, reciver=reciver, logs=logs, systems=systems)
+    if current_user == "":
+        login_error = "Please login in before sending a chat."
+        return render_template("login.html", no_user=no_user, login_error=login_error)
     else:
-        return render_template('send_chat.html', no_user=no_user, current_user=current_user, reciver=reciver, logs=logs, systems=systems)
+        reciver = request.form.get('id')
+        logs = conn.execute(text(
+            f"SELECT * FROM chats WHERE (reciver = {reciver} and sender = {current_user});")).all()
+        systems = conn.execute(text(
+            f"SELECT * FROM chats WHERE (reciver = {current_user} and sender = {reciver});")).all()
+        print(f"logs logs {logs}")
+        print(f"system system {systems}")
+        if not logs:
+            logs = f"No chat records found."
+            return render_template('send_chat.html', no_user=no_user, current_user=current_user, reciver=reciver, logs=logs, systems=systems)
+        else:
+            return render_template('send_chat.html', no_user=no_user, current_user=current_user, reciver=reciver, logs=logs, systems=systems)
 
 
 @app.route('/send_chat_reload', methods=['POST'])

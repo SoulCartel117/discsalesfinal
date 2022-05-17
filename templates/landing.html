@@ -14,8 +14,8 @@
             <div class="item_desc">
                 <h4 class="description">Name: {{ result[1] }}</h4>
                 <p class="description">Description: {{ result[2] }}</p>
-                <p class="description">Price: {{ result[4] }}</p>
-                <p class="description">Discount Price: {{ result[10] }}</p>
+                <s class="description" style="color:red;">Price: ${{ result[4] }}0</s>
+                <p class="description">Discount Price: ${{ result[10] }}0</p>
             </div>
         </div>
         {% endfor %}
